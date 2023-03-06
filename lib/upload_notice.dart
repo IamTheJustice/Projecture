@@ -1,3 +1,5 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_animated_button/flutter_animated_button.dart';
 import 'package:get/get.dart';
@@ -22,6 +24,7 @@ class _AdminNoticeScreenState extends State<AdminNoticeScreen> {
   final TextEditingController dateController = TextEditingController();
   DateTime date = DateTime.now();
   late var formattedDate = "Date of Notice";
+  final _auth = FirebaseAuth.instance;
 
   @override
   Widget build(BuildContext context) {
@@ -161,6 +164,16 @@ class _AdminNoticeScreenState extends State<AdminNoticeScreen> {
                     onPress: () {
                       FocusScope.of(context).requestFocus(new FocusNode());
                       if (formkey.currentState!.validate()) {
+                        FirebgitaseFirestore.instance
+                            .collection(_auth.currentUser!.uid)
+                            .doc(_auth.currentUser!.uid)
+                            .collection('Notice')
+                            .doc()
+                            .set({
+                          'Notice Title': noticeNameController.text,
+                          'Description': noticeController.text,
+                          'Date': dateController.text
+                        });
                         Get.showSnackbar(
                           GetSnackBar(
                             message: "Notice Added Succesfully",
