@@ -164,7 +164,7 @@ class _AdminNoticeScreenState extends State<AdminNoticeScreen> {
                     onPress: () {
                       FocusScope.of(context).requestFocus(new FocusNode());
                       if (formkey.currentState!.validate()) {
-                        FirebgitaseFirestore.instance
+                        FirebaseFirestore.instance
                             .collection(_auth.currentUser!.uid)
                             .doc(_auth.currentUser!.uid)
                             .collection('Notice')
