@@ -1,10 +1,15 @@
 import 'package:flutter/material.dart';
+import 'package:projecture_admin/status/Checking_screen.dart';
+import 'package:projecture_admin/status/Done.dart';
+import 'package:projecture_admin/status/inprocess_screen.dart';
+import 'package:projecture_admin/status/todo_screen.dart';
 import 'package:projecture_admin/utils/color_utils.dart';
 import 'package:projecture_admin/utils/fontStyle_utils.dart';
 import 'package:sizer/sizer.dart';
 
 class TaskScreen extends StatefulWidget {
-  const TaskScreen({Key? key}) : super(key: key);
+  var Project;
+  TaskScreen({this.Project});
 
   @override
   State<TaskScreen> createState() => _TaskScreenState();
@@ -13,6 +18,7 @@ class TaskScreen extends StatefulWidget {
 class _TaskScreenState extends State<TaskScreen> {
   @override
   Widget build(BuildContext context) {
+    String Project = widget.Project;
     return DefaultTabController(
         length: 4,
         child: Scaffold(
@@ -53,7 +59,7 @@ class _TaskScreenState extends State<TaskScreen> {
                           text: 'Process',
                         ),
                         Tab(
-                          text: 'Give Task',
+                          text: 'InChecking',
                         ),
                         Tab(
                           text: 'Done',
@@ -65,18 +71,10 @@ class _TaskScreenState extends State<TaskScreen> {
                 Expanded(
                     child: TabBarView(
                   children: [
-                    Center(
-                      child: Text("Chats"),
-                    ),
-                    Center(
-                      child: Text("status"),
-                    ),
-                    Center(
-                      child: Text("calls"),
-                    ),
-                    Center(
-                      child: Text("status"),
-                    ),
+                    TodoScreen(Project: Project),
+                    InProcess(Project: Project),
+                    Checking(Project: Project),
+                    Done(Project: Project),
                   ],
                 ))
               ],

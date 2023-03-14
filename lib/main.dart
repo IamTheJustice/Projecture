@@ -2,7 +2,6 @@ import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:projecture_admin/auth/admin_login_screen.dart';
-import 'package:projecture_admin/upload_notice.dart';
 import 'package:sizer/sizer.dart';
 
 void main() async {
@@ -21,6 +20,7 @@ class MyApp extends StatelessWidget {
         (BuildContext context, Orientation orientation, DeviceType deviceType) {
       return GetMaterialApp(
           title: 'Flutter Demo',
+          debugShowCheckedModeBanner: false,
           theme: ThemeData(
             // This is the theme of your application.
             //
@@ -33,7 +33,7 @@ class MyApp extends StatelessWidget {
             // is not restarted.
             primarySwatch: Colors.blue,
           ),
-          home: AdminNoticeScreen());
+          home: AdminLoginScreen());
     });
   }
 }

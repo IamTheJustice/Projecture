@@ -3,13 +3,12 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_animated_button/flutter_animated_button.dart';
 import 'package:get/get.dart';
+import 'package:projecture_admin/admin_bottombar_screen.dart';
 import 'package:projecture_admin/auth/admin_registration_screen.dart';
 import 'package:projecture_admin/utils/color_utils.dart';
 import 'package:projecture_admin/utils/fontStyle_utils.dart';
 import 'package:projecture_admin/utils/size_config.dart';
 import 'package:sizer/sizer.dart';
-
-import '../admin_BottomBar_screen.dart';
 
 class AdminLoginScreen extends StatefulWidget {
   const AdminLoginScreen({Key? key}) : super(key: key);
@@ -86,6 +85,8 @@ class _AdminLoginScreenState extends State<AdminLoginScreen> {
               Padding(
                 padding: EdgeInsets.only(left: 6.w, right: 6.w, top: 11.w),
                 child: TextFormField(
+                  textInputAction: TextInputAction.next,
+                  cursorColor: ColorUtils.primaryColor,
                   controller: emailController,
                   validator: (v) {
                     if (v!.isEmpty) {
@@ -119,6 +120,7 @@ class _AdminLoginScreenState extends State<AdminLoginScreen> {
               Padding(
                 padding: EdgeInsets.only(left: 6.w, right: 6.w, top: 4.w),
                 child: TextFormField(
+                  cursorColor: ColorUtils.primaryColor,
                   controller: passwordController,
                   validator: (v) {
                     // add your custom validation here.

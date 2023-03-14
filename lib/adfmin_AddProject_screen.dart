@@ -44,6 +44,8 @@ class _AddProjectScreenState extends State<AddProjectScreen> {
               Padding(
                 padding: EdgeInsets.only(left: 6.w, right: 6.w, top: 2.w),
                 child: TextFormField(
+                  textInputAction: TextInputAction.next,
+                  cursorColor: ColorUtils.primaryColor,
                   controller: projectNameController,
                   validator: (v) {
                     if (v!.isEmpty) {
@@ -69,6 +71,8 @@ class _AddProjectScreenState extends State<AddProjectScreen> {
               Padding(
                 padding: EdgeInsets.only(left: 6.w, right: 6.w, top: 2.w),
                 child: TextFormField(
+                  textInputAction: TextInputAction.next,
+                  cursorColor: ColorUtils.primaryColor,
                   controller: editingPlatformController,
                   maxLines: 2,
                   validator: (v) {
@@ -95,6 +99,7 @@ class _AddProjectScreenState extends State<AddProjectScreen> {
               Padding(
                 padding: EdgeInsets.only(left: 6.w, right: 6.w, top: 2.w),
                 child: TextFormField(
+                  cursorColor: ColorUtils.primaryColor,
                   controller: descriptionController,
                   maxLines: 2,
                   validator: (v) {

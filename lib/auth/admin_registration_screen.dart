@@ -128,6 +128,8 @@ class _AdminRegisterScreenState extends State<AdminRegisterScreen> {
                 Padding(
                   padding: EdgeInsets.only(left: 6.w, right: 6.w, top: 2.w),
                   child: TextFormField(
+                    textInputAction: TextInputAction.next,
+                    cursorColor: ColorUtils.primaryColor,
                     controller: fullnameController,
                     validator: (v) {
                       if (v!.isEmpty) {
@@ -153,6 +155,8 @@ class _AdminRegisterScreenState extends State<AdminRegisterScreen> {
                 Padding(
                   padding: EdgeInsets.only(left: 6.w, right: 6.w, top: 2.w),
                   child: TextFormField(
+                    textInputAction: TextInputAction.next,
+                    cursorColor: ColorUtils.primaryColor,
                     controller: addressController,
                     maxLines: 2,
                     validator: (v) {
@@ -179,6 +183,8 @@ class _AdminRegisterScreenState extends State<AdminRegisterScreen> {
                 Padding(
                   padding: EdgeInsets.only(left: 6.w, right: 6.w, top: 2.w),
                   child: TextFormField(
+                    textInputAction: TextInputAction.next,
+                    cursorColor: ColorUtils.primaryColor,
                     controller: companynameController,
                     validator: (v) {
                       if (v!.isEmpty) {
@@ -204,6 +210,8 @@ class _AdminRegisterScreenState extends State<AdminRegisterScreen> {
                 Padding(
                   padding: EdgeInsets.only(left: 6.w, right: 6.w, top: 2.w),
                   child: TextFormField(
+                    textInputAction: TextInputAction.next,
+                    cursorColor: ColorUtils.primaryColor,
                     controller: emailController,
                     validator: (v) {
                       if (v!.isEmpty) {
@@ -233,6 +241,7 @@ class _AdminRegisterScreenState extends State<AdminRegisterScreen> {
                 Padding(
                   padding: EdgeInsets.only(left: 6.w, right: 6.w, top: 2.w),
                   child: TextFormField(
+                    cursorColor: ColorUtils.primaryColor,
                     controller: dateController,
                     readOnly: true,
                     validator: (v) {
@@ -280,6 +289,8 @@ class _AdminRegisterScreenState extends State<AdminRegisterScreen> {
                 Padding(
                   padding: EdgeInsets.only(left: 6.w, right: 6.w, top: 2.w),
                   child: TextFormField(
+                    textInputAction: TextInputAction.next,
+                    cursorColor: ColorUtils.primaryColor,
                     controller: passwordController,
                     validator: (v) {
                       // add your custom validation here.
@@ -306,6 +317,8 @@ class _AdminRegisterScreenState extends State<AdminRegisterScreen> {
                 Padding(
                   padding: EdgeInsets.only(left: 6.w, right: 6.w, top: 2.w),
                   child: TextFormField(
+                    textInputAction: TextInputAction.next,
+                    cursorColor: ColorUtils.primaryColor,
                     controller: confirmPasswordController,
                     validator: (v) {
                       if (v!.isEmpty) return 'Empty';
