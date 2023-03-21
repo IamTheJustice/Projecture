@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
+import 'package:projecture_admin/auth/admin_login_screen.dart';
 
 class MyProfileScreen extends StatefulWidget {
   const MyProfileScreen({Key? key}) : super(key: key);
@@ -10,9 +12,13 @@ class MyProfileScreen extends StatefulWidget {
 class _MyProfileScreenState extends State<MyProfileScreen> {
   @override
   Widget build(BuildContext context) {
-    return const Scaffold(
+    return Scaffold(
       body: Center(
-        child: Text("MyProfileScreen"),
+        child: InkWell(
+            onTap: () {
+              Get.to(() => AdminLoginScreen());
+            },
+            child: Text("Logout")),
       ),
     );
   }

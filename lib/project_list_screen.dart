@@ -89,7 +89,8 @@ class _ProjectListScreenState extends State<ProjectListScreen> {
                                   temparray.contains(data['Uid'])
                                       ? 'REMOVE'
                                       : 'ADD',
-                                  style: TextStyle(fontWeight: FontWeight.bold),
+                                  style: const TextStyle(
+                                      fontWeight: FontWeight.bold),
                                 )),
                               )),
                         );

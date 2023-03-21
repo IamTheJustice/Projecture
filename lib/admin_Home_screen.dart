@@ -3,7 +3,7 @@ import 'package:drop_shadow/drop_shadow.dart' as a;
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:lottie/lottie.dart';
-import 'package:projecture_admin/adfmin_AddProject_screen.dart';
+import 'package:projecture_admin/admin_AddProject_screen.dart';
 import 'package:projecture_admin/admin_dashBoard_screen.dart';
 import 'package:projecture_admin/admin_event_screen.dart';
 import 'package:projecture_admin/upload_notice.dart';
@@ -21,10 +21,6 @@ class AdminHomeScreen extends StatefulWidget {
 
 class _AdminHomeScreenState extends State<AdminHomeScreen> {
   final List<String> imageList = [
-    // "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRqq4Mfj4c9dpIdMV9WytunlBbAT6YHK-hE3A&usqp=CAU",
-    // "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTMDxaWFxtmBf90hoBkd6QDn2IK5Cmc40qqpg&usqp=CAU",
-    // "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTEP1mvlf0-oP3SKSOLSAZlh_DVu8jL5q6rwFKGFsBob2XRz8MwKQ9IZCABBCDXYVgIOAM&usqp=CAU",
-    // "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRRTXScXheObInXuPAAD7D6ce-w48SeWtkRYPUgXeHr2IxkxPbKqabLB99LC0kaNIm0oz0&usqp=CAU",
     "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcS83axnEHbv6LEONfAHt9T7cS4kCC9f_wuGvQ&usqp=CAU",
     "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTJ-K1XPtIJZ5xX-83Qd6SlM4g2dTUIqgPTug&usqp=CAU",
     "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQfDSd-Cv7euPM3CRBBxOqK2XztgDmk0gPnWQ&usqp=CAU",
@@ -118,39 +114,76 @@ class _AdminHomeScreenState extends State<AdminHomeScreen> {
                 ],
               ),
               GridView.builder(
-                  padding: EdgeInsets.symmetric(vertical: 4.w, horizontal: 5.w),
+                  padding: EdgeInsets.symmetric(
+                    vertical: 4.w,
+                  ),
                   shrinkWrap: true,
                   physics: const NeverScrollableScrollPhysics(),
                   itemCount: templist.length,
                   gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
                     crossAxisCount: 2,
-                    //childAspectRatio: 0.8,
                     mainAxisSpacing: 12.0,
-                    //crossAxisSpacing:0.0
                   ),
                   itemBuilder: (BuildContext context, int index) {
-                    return Stack(
+                    return Column(
+                      crossAxisAlignment: CrossAxisAlignment.center,
                       children: [
-                        Column(
+                        Stack(
                           children: [
-                            GestureDetector(
-                              onTap: () {
-                                templist[index]['title'] == "Add Project"
-                                    ? Get.to(() => const AddProjectScreen())
-                                    : const SizedBox();
-                                templist[index]['title'] == "Notice"
-                                    ? Get.to(() => const AdminNoticeScreen())
-                                    : const SizedBox();
-                                templist[index]['title'] == "Events"
-                                    ? Get.to(() => const AdminEventScreen())
-                                    : const SizedBox();
-                                templist[index]['title'] == "DashBoard"
-                                    ? Get.to(() => const DashBoardScreen())
-                                    : const SizedBox();
-                              },
+                            Column(
+                              children: [
+                                GestureDetector(
+                                  onTap: () {
+                                    templist[index]['title'] == "Add Project"
+                                        ? Get.to(() => const AddProjectScreen())
+                                        : const SizedBox();
+                                    templist[index]['title'] == "Notice"
+                                        ? Get.to(
+                                            () => const AdminNoticeScreen())
+                                        : const SizedBox();
+                                    templist[index]['title'] == "Events"
+                                        ? Get.to(() => const AdminEventScreen())
+                                        : const SizedBox();
+                                    templist[index]['title'] == "DashBoard"
+                                        ? Get.to(() => const DashBoardScreen())
+                                        : const SizedBox();
+                                  },
+                                  child: Container(
+                                    height: 35.w,
+                                    width: 40.w,
+                                    decoration: BoxDecoration(
+                                        boxShadow: [
+                                          BoxShadow(
+                                              blurRadius: 9.0,
+                                              color: ColorUtils.black
+                                                  .withOpacity(0.2),
+                                              spreadRadius: 0.5),
+                                        ],
+                                        borderRadius:
+                                            BorderRadius.circular(3.w),
+                                        color:
+                                            ColorUtils.white.withOpacity(0.9)),
+                                    child: Column(
+                                      crossAxisAlignment:
+                                          CrossAxisAlignment.center,
+                                      mainAxisAlignment:
+                                          MainAxisAlignment.start,
+                                      children: [
+                                        SizeConfig.sH2,
+                                        Lottie.asset(
+                                            templist[index]['imagepath'],
+                                            height: 10.h,
+                                            width: 27.w)
+                                      ],
+                                    ),
+                                  ),
+                                ),
+                              ],
+                            ),
+                            Padding(
+                              padding: EdgeInsets.only(
+                                  top: 13.h, left: 5.w, right: 4.w),
                               child: Container(
-                                height: 35.w,
-                                width: 40.w,
                                 decoration: BoxDecoration(
                                     boxShadow: [
                                       BoxShadow(
@@ -159,46 +192,23 @@ class _AdminHomeScreenState extends State<AdminHomeScreen> {
                                               ColorUtils.black.withOpacity(0.2),
                                           spreadRadius: 0.5),
                                     ],
-                                    borderRadius: BorderRadius.circular(3.w),
-                                    color: ColorUtils.white.withOpacity(0.9)),
-                                child: Column(
-                                  crossAxisAlignment: CrossAxisAlignment.center,
-                                  mainAxisAlignment: MainAxisAlignment.start,
-                                  children: [
-                                    SizeConfig.sH2,
-                                    Lottie.asset(templist[index]['imagepath'],
-                                        height: 10.h, width: 27.w)
-                                  ],
+                                    color: ColorUtils.primaryColor,
+                                    borderRadius: const BorderRadius.all(
+                                        Radius.circular(10))),
+                                height: 6.h,
+                                width: 30.w,
+                                child: Center(
+                                  child: Text(
+                                    templist[index]['title'],
+                                    style:
+                                        FontTextStyle.Proxima16Medium.copyWith(
+                                            color: ColorUtils.white),
+                                  ),
                                 ),
                               ),
-                            ),
+                            )
                           ],
                         ),
-                        Padding(
-                          padding: EdgeInsets.only(
-                              top: 13.h, left: 4.5.w, right: 3.w),
-                          child: Container(
-                            decoration: BoxDecoration(
-                                boxShadow: [
-                                  BoxShadow(
-                                      blurRadius: 9.0,
-                                      color: ColorUtils.black.withOpacity(0.2),
-                                      spreadRadius: 0.5),
-                                ],
-                                color: ColorUtils.primaryColor,
-                                borderRadius: const BorderRadius.all(
-                                    Radius.circular(10))),
-                            height: 6.h,
-                            width: 30.w,
-                            child: Center(
-                              child: Text(
-                                templist[index]['title'],
-                                style: FontTextStyle.Proxima16Medium.copyWith(
-                                    color: ColorUtils.white),
-                              ),
-                            ),
-                          ),
-                        )
                       ],
                     );
                   }),

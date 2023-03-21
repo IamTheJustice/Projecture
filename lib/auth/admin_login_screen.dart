@@ -5,6 +5,7 @@ import 'package:flutter_animated_button/flutter_animated_button.dart';
 import 'package:get/get.dart';
 import 'package:projecture_admin/admin_bottombar_screen.dart';
 import 'package:projecture_admin/auth/admin_registration_screen.dart';
+import 'package:projecture_admin/auth/forgot_password_screen.dart';
 import 'package:projecture_admin/utils/color_utils.dart';
 import 'package:projecture_admin/utils/fontStyle_utils.dart';
 import 'package:projecture_admin/utils/size_config.dart';
@@ -84,81 +85,122 @@ class _AdminLoginScreenState extends State<AdminLoginScreen> {
               ),
               Padding(
                 padding: EdgeInsets.only(left: 6.w, right: 6.w, top: 11.w),
-                child: TextFormField(
-                  textInputAction: TextInputAction.next,
-                  cursorColor: ColorUtils.primaryColor,
-                  controller: emailController,
-                  validator: (v) {
-                    if (v!.isEmpty) {
-                      return "please email required";
-                    } else if (!RegExp(
-                            r"^[a-zA-Z0-9.!#$%&'*+/=?^_`{|}~-]+@[a-zA-Z0-9](?:[a-zA-Z0-9-]"
-                            r"{0,253}[a-zA-Z0-9])?(?:\.[a-zA-Z0-9](?:[a-zA-Z0-9-]"
-                            r"{0,253}[a-zA-Z0-9])?)*$")
-                        .hasMatch(v)) {
-                      return "please enter valid email ";
-                    }
-                    return null;
-                  },
-                  decoration: InputDecoration(
-                      contentPadding: EdgeInsets.all(4.w),
-                      filled: true,
-                      fillColor: ColorUtils.greyE7.withOpacity(0.5),
-                      hintText: "Email/Username",
-                      suffixIcon: Icon(
-                        Icons.email_outlined,
-                        size: 5.w,
-                      ),
-                      hintStyle: FontTextStyle.Proxima14Regular.copyWith(
-                          color: ColorUtils.primaryColor),
-                      border: const OutlineInputBorder(
-                          borderSide: BorderSide.none,
-                          borderRadius:
-                              BorderRadius.all(Radius.circular(10.0)))),
+                child: Theme(
+                  data: Theme.of(context).copyWith(
+                    inputDecorationTheme:
+                        Theme.of(context).inputDecorationTheme.copyWith(
+                      iconColor: MaterialStateColor.resolveWith(
+                          (Set<MaterialState> states) {
+                        if (states.contains(MaterialState.focused)) {
+                          return ColorUtils.primaryColor;
+                        }
+                        if (states.contains(MaterialState.error)) {
+                          return Colors.red;
+                        }
+                        return Colors.grey;
+                      }),
+                    ),
+                  ),
+                  child: TextFormField(
+                    textInputAction: TextInputAction.next,
+                    cursorColor: ColorUtils.primaryColor,
+                    controller: emailController,
+                    style: FontTextStyle.Proxima16Medium.copyWith(
+                        color: ColorUtils.primaryColor),
+                    validator: (v) {
+                      if (v!.isEmpty) {
+                        return "please email required";
+                      } else if (!RegExp(
+                              r"^[a-zA-Z0-9.!#$%&'*+/=?^_`{|}~-]+@[a-zA-Z0-9](?:[a-zA-Z0-9-]"
+                              r"{0,253}[a-zA-Z0-9])?(?:\.[a-zA-Z0-9](?:[a-zA-Z0-9-]"
+                              r"{0,253}[a-zA-Z0-9])?)*$")
+                          .hasMatch(v)) {
+                        return "please enter valid email ";
+                      }
+                      return null;
+                    },
+                    decoration: InputDecoration(
+                        contentPadding: EdgeInsets.all(4.w),
+                        filled: true,
+                        fillColor: ColorUtils.greyE7.withOpacity(0.5),
+                        hintText: "Email/Username",
+                        suffixIcon: Icon(
+                          Icons.email_outlined,
+                          size: 5.w,
+                          color: Colors.grey,
+                        ),
+                        hintStyle: FontTextStyle.Proxima14Regular.copyWith(
+                            color: ColorUtils.primaryColor),
+                        border: const OutlineInputBorder(
+                            borderSide: BorderSide.none,
+                            borderRadius:
+                                BorderRadius.all(Radius.circular(10.0)))),
+                  ),
                 ),
               ),
               Padding(
                 padding: EdgeInsets.only(left: 6.w, right: 6.w, top: 4.w),
-                child: TextFormField(
-                  cursorColor: ColorUtils.primaryColor,
-                  controller: passwordController,
-                  validator: (v) {
-                    // add your custom validation here.
-                    if (v!.isEmpty) {
-                      return 'Please enter password';
-                    }
-                    if (v.length <= 8) {
-                      return 'Password must be atleast 8 characters long';
-                    }
-                  },
-                  obscureText: isCheckPassword,
-                  decoration: InputDecoration(
-                      contentPadding: EdgeInsets.all(4.w),
-                      filled: true,
-                      fillColor: ColorUtils.greyE7.withOpacity(0.5),
-                      hintText: "Password",
-                      suffixIcon: InkWell(
-                        onTap: () {
-                          isCheckPassword = !isCheckPassword;
-                          setState(() {});
-                        },
-                        child: Icon(isCheckPassword
-                            ? Icons.visibility_off
-                            : Icons.visibility),
-                      ),
-                      hintStyle: FontTextStyle.Proxima14Regular.copyWith(
-                          color: ColorUtils.primaryColor),
-                      border: const OutlineInputBorder(
-                          borderSide: BorderSide.none,
-                          borderRadius:
-                              BorderRadius.all(Radius.circular(10.0)))),
+                child: Theme(
+                  data: Theme.of(context).copyWith(
+                    inputDecorationTheme:
+                        Theme.of(context).inputDecorationTheme.copyWith(
+                      iconColor: MaterialStateColor.resolveWith(
+                          (Set<MaterialState> states) {
+                        if (states.contains(MaterialState.focused)) {
+                          return ColorUtils.primaryColor;
+                        }
+                        if (states.contains(MaterialState.error)) {
+                          return Colors.red;
+                        }
+                        return Colors.grey;
+                      }),
+                    ),
+                  ),
+                  child: TextFormField(
+                    cursorColor: ColorUtils.primaryColor,
+                    controller: passwordController,
+                    style: FontTextStyle.Proxima16Medium.copyWith(
+                        color: ColorUtils.primaryColor),
+                    validator: (v) {
+                      // add your custom validation here.
+                      if (v!.isEmpty) {
+                        return 'Please enter password';
+                      }
+                      if (v.length <= 8) {
+                        return 'Password must be atleast 8 characters long';
+                      }
+                    },
+                    obscureText: isCheckPassword,
+                    decoration: InputDecoration(
+                        contentPadding: EdgeInsets.all(4.w),
+                        filled: true,
+                        fillColor: ColorUtils.greyE7.withOpacity(0.5),
+                        hintText: "Password",
+                        suffixIcon: InkWell(
+                          onTap: () {
+                            isCheckPassword = !isCheckPassword;
+                            setState(() {});
+                          },
+                          child: Icon(
+                              isCheckPassword
+                                  ? Icons.visibility_off
+                                  : Icons.visibility,
+                              color: Colors.grey),
+                        ),
+                        hintStyle: FontTextStyle.Proxima14Regular.copyWith(
+                            color: ColorUtils.primaryColor),
+                        border: const OutlineInputBorder(
+                            borderSide: BorderSide.none,
+                            borderRadius:
+                                BorderRadius.all(Radius.circular(10.0)))),
+                  ),
                 ),
               ),
               Padding(
-                padding: EdgeInsets.only(right: 6.w),
-                child: TextButton(
-                    onPressed: () {
-                      // Get.to(() => const ForgotPasswordScreen());
+                padding: EdgeInsets.only(right: 7.w, top: 2.h),
+                child: GestureDetector(
+                    onTap: () {
+                      Get.to(() => const ForgotPasswordScreen());
                     },
                     child: Align(
                       alignment: Alignment.topRight,
@@ -201,9 +243,9 @@ class _AdminLoginScreenState extends State<AdminLoginScreen> {
                         ),
                       );
                       Future.delayed(
-                        Duration(seconds: 3),
+                        const Duration(seconds: 3),
                         () {
-                          Get.to(() => const BottomNavBarScreen());
+                          Get.off(() => const BottomNavBarScreen());
                         },
                       );
                     }
@@ -213,20 +255,14 @@ class _AdminLoginScreenState extends State<AdminLoginScreen> {
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
                   Text(
-                    "Don't have account ?",
+                    "Don't have an account ?",
                     style: FontTextStyle.Proxima10Regular.copyWith(
                         color: ColorUtils.primaryColor,
                         fontWeight: FontWeightClass.semiB),
                   ),
                   TextButton(
                       onPressed: () {
-                        // Get.to(() => RegisterScreen());
-                        Navigator.push(
-                          context,
-                          MaterialPageRoute(
-                              builder: (context) =>
-                                  const AdminRegisterScreen()),
-                        );
+                        Get.to(() => const AdminRegisterScreen());
                       },
                       child: Text(
                         "Sign Up",

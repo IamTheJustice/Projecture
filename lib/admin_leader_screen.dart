@@ -3,8 +3,6 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:projecture_admin/leader_assignList_screen.dart';
 import 'package:projecture_admin/utils/color_utils.dart';
-import 'package:projecture_admin/utils/fontStyle_utils.dart';
-import 'package:projecture_admin/utils/size_config.dart';
 import 'package:sizer/sizer.dart';
 
 class LeaderScreen extends StatefulWidget {
@@ -38,7 +36,7 @@ class _LeaderScreenState extends State<LeaderScreen> {
                         var data = snapshot.data!.docs[i];
                         return Column(
                           children: [
-                            SizedBox(
+                            const SizedBox(
                               height: 20,
                             ),
                             Padding(
@@ -82,8 +80,11 @@ class _LeaderScreenState extends State<LeaderScreen> {
                           ],
                         );
                       });
-                } else
-                  return CircularProgressIndicator();
+                } else {
+                  return const Center(
+                    child: CircularProgressIndicator(),
+                  );
+                }
               }),
         ),
       ),
