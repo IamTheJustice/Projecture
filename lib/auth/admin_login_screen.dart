@@ -1,3 +1,5 @@
+import 'dart:developer';
+
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
@@ -162,7 +164,6 @@ class _AdminLoginScreenState extends State<AdminLoginScreen> {
                     style: FontTextStyle.Proxima16Medium.copyWith(
                         color: ColorUtils.primaryColor),
                     validator: (v) {
-                      // add your custom validation here.
                       if (v!.isEmpty) {
                         return 'Please enter password';
                       }
@@ -213,43 +214,58 @@ class _AdminLoginScreenState extends State<AdminLoginScreen> {
                     )),
               ),
               SizeConfig.sH3,
-              AnimatedButton(
-                  height: 12.w,
+              InkWell(
+                onTap: () async {
+                  log('hbjcdnkf==========${ColorUtils.primaryColor.value}');
+                  debugPrint(
+                      '=-=-=-=-=-=-=-=-${ColorUtils.primaryColor.value}');
+                  FocusScope.of(context).requestFocus();
+                  if (formkey.currentState!.validate()) {
+                    final newUser = await _auth.signInWithEmailAndPassword(
+                        email: emailController.text,
+                        password: passwordController.text);
+                    Get.showSnackbar(
+                      GetSnackBar(
+                        message: "Login Succesfully",
+                        borderRadius: 10.0,
+                        margin:
+                            EdgeInsets.only(left: 4.w, right: 4.w, bottom: 4.w),
+                        snackPosition: SnackPosition.BOTTOM,
+                        backgroundColor: ColorUtils.primaryColor,
+                        duration: const Duration(seconds: 2),
+                      ),
+                    );
+                    Future.delayed(
+                      const Duration(seconds: 3),
+                      () {
+                        Get.off(() => const BottomNavBarScreen());
+                      },
+                    );
+                  }
+                },
+                child: Container(
+                  height: 7.h,
                   width: 60.w,
-                  text: "LOGIN",
-                  textStyle: FontTextStyle.Proxima14Regular.copyWith(
-                      fontSize: 12.sp, color: ColorUtils.white),
-                  borderRadius: 10.0,
-                  backgroundColor: ColorUtils.primaryColor,
-                  selectedBackgroundColor: ColorUtils.purple,
-                  transitionType: TransitionType.CENTER_ROUNDER,
-                  selectedTextColor: ColorUtils.white,
-                  isReverse: true,
-                  onPress: () async {
-                    FocusScope.of(context).requestFocus();
-                    if (formkey.currentState!.validate()) {
-                      final newUser = await _auth.signInWithEmailAndPassword(
-                          email: emailController.text,
-                          password: passwordController.text);
-                      Get.showSnackbar(
-                        GetSnackBar(
-                          message: "Login Succesfully",
-                          borderRadius: 10.0,
-                          margin: EdgeInsets.only(
-                              left: 4.w, right: 4.w, bottom: 4.w),
-                          snackPosition: SnackPosition.BOTTOM,
-                          backgroundColor: ColorUtils.primaryColor,
-                          duration: const Duration(seconds: 2),
-                        ),
-                      );
-                      Future.delayed(
-                        const Duration(seconds: 3),
-                        () {
-                          Get.off(() => const BottomNavBarScreen());
-                        },
-                      );
-                    }
-                  }),
+                  decoration: BoxDecoration(
+                      gradient: LinearGradient(
+                          colors: [Colors.red, Colors.red.shade200],
+                          begin: Alignment.topLeft,
+                          end: Alignment.bottomRight),
+                      borderRadius: BorderRadius.all(
+                        Radius.circular(10.0),
+                      ),
+                      boxShadow: [
+                        BoxShadow(
+                            color: Colors.black12,
+                            offset: Offset(
+                              5,
+                              5,
+                            ),
+                            blurRadius: 10)
+                      ]),
+                  child: Center(child: Text("LOGIN")),
+                ),
+              ),
               SizeConfig.sH2,
               Row(
                 mainAxisAlignment: MainAxisAlignment.center,

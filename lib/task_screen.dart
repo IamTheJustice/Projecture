@@ -12,7 +12,7 @@ import 'package:sizer/sizer.dart';
 
 class TaskScreen extends StatefulWidget {
   var Project;
-  TaskScreen({this.Project});
+  TaskScreen({super.key, this.Project});
 
   @override
   State<TaskScreen> createState() => _TaskScreenState();
@@ -36,7 +36,7 @@ class _TaskScreenState extends State<TaskScreen> {
               iconTheme: const IconThemeData(color: ColorUtils.white),
             ),
             body: Padding(
-              padding: EdgeInsets.all(8.0),
+              padding: const EdgeInsets.all(8.0),
               child: Column(
                 children: [
                   SizeConfig.sH2,
@@ -46,7 +46,8 @@ class _TaskScreenState extends State<TaskScreen> {
                         color: themeNotifier.isDark
                             ? ColorUtils.white
                             : ColorUtils.primaryColor,
-                        borderRadius: BorderRadius.all(Radius.circular(30.0))),
+                        borderRadius:
+                            const BorderRadius.all(Radius.circular(30.0))),
                     child: Padding(
                       padding: const EdgeInsets.all(5.0),
                       child: TabBar(

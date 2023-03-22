@@ -8,7 +8,7 @@ import 'package:sizer/sizer.dart';
 
 class AddMembers extends StatefulWidget {
   var Project;
-  AddMembers({this.Project});
+  AddMembers({super.key, this.Project});
 
   @override
   State<AddMembers> createState() => _AddMembersState();
@@ -128,7 +128,11 @@ class _AddMembersState extends State<AddMembers> {
                         );
                       });
                 } else {
-                  return const Center(child: CircularProgressIndicator());
+                  return const Center(
+                      child: CircularProgressIndicator(
+                    color: ColorUtils.primaryColor,
+                    strokeWidth: 1.1,
+                  ));
                 }
               }),
         ),

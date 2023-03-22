@@ -482,19 +482,10 @@ class _AdminRegisterScreenState extends State<AdminRegisterScreen> {
                               Future.delayed(
                                 const Duration(seconds: 3),
                                 () {
-                                  Navigator.push(
-                                    context,
-                                    MaterialPageRoute(
-                                        builder: (context) =>
-                                            const AdminLoginScreen()),
-                                  );
+                                  Get.to(() => const AdminLoginScreen());
                                 },
                               );
                             });
-
-                            //} catch (e) {
-                            //   print(e);
-                            // }
                             setState(() {});
                           }
                         }),
@@ -511,12 +502,7 @@ class _AdminRegisterScreenState extends State<AdminRegisterScreen> {
                       ),
                       TextButton(
                           onPressed: () {
-                            Navigator.push(
-                              context,
-                              MaterialPageRoute(
-                                  builder: (context) =>
-                                      const AdminLoginScreen()),
-                            );
+                            Get.to(() => const AdminLoginScreen());
                           },
                           child: Text(
                             "Sign In",

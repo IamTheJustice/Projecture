@@ -166,6 +166,34 @@ class _AdminNoticeScreenState extends State<AdminNoticeScreen> {
                       onTap: () async {
                         await showDatePicker(
                           context: context,
+                          builder: (context, child) {
+                            return Theme(
+                              data: Theme.of(context).copyWith(
+                                colorScheme: ColorScheme.light(
+                                  primary: themeNotifier.isDark
+                                      ? ColorUtils.white
+                                      : ColorUtils
+                                          .primaryColor, // header background color
+                                  onPrimary: themeNotifier.isDark
+                                      ? ColorUtils.primaryColor
+                                      : ColorUtils.white, // header text color
+                                  onSurface: themeNotifier.isDark
+                                      ? ColorUtils.white
+                                      : ColorUtils
+                                          .primaryColor, // body text color
+                                ),
+                                textButtonTheme: TextButtonThemeData(
+                                  style: TextButton.styleFrom(
+                                    primary: themeNotifier.isDark
+                                        ? ColorUtils.white
+                                        : ColorUtils
+                                            .primaryColor, // button text color
+                                  ),
+                                ),
+                              ),
+                              child: child!,
+                            );
+                          },
                           initialDate: date,
                           firstDate: DateTime(2022),
                           lastDate: DateTime(2030),
@@ -197,7 +225,7 @@ class _AdminNoticeScreenState extends State<AdminNoticeScreen> {
                       selectedTextColor: ColorUtils.white,
                       isReverse: true,
                       onPress: () {
-                        FocusScope.of(context).requestFocus(new FocusNode());
+                        FocusScope.of(context).requestFocus(FocusNode());
                         if (formkey.currentState!.validate()) {
                           FirebaseFirestore.instance
                               .collection(_auth.currentUser!.uid)

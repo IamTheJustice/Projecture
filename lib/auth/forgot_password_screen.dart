@@ -121,7 +121,7 @@ class _ForgotPasswordScreenState extends State<ForgotPasswordScreen> {
             },
             child: GestureDetector(
               onTap: () {
-                Get.to(() => AdminLoginScreen());
+                Get.to(() => const AdminLoginScreen());
               },
               child: Container(
                 height: 12.w,

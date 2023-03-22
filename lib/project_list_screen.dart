@@ -2,8 +2,6 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:projecture_admin/utils/color_utils.dart';
-import 'package:projecture_admin/utils/fontStyle_utils.dart';
-import 'package:projecture_admin/utils/size_config.dart';
 import 'package:sizer/sizer.dart';
 
 class ProjectListScreen extends StatefulWidget {
@@ -12,7 +10,8 @@ class ProjectListScreen extends StatefulWidget {
   String description;
 
   ProjectListScreen(
-      {required this.projectName,
+      {super.key,
+      required this.projectName,
       required this.editingPlatform,
       required this.description});
 
@@ -96,7 +95,11 @@ class _ProjectListScreenState extends State<ProjectListScreen> {
                         );
                       });
                 } else {
-                  return const Center(child: CircularProgressIndicator());
+                  return const Center(
+                      child: CircularProgressIndicator(
+                    color: ColorUtils.primaryColor,
+                    strokeWidth: 1.1,
+                  ));
                 }
               }),
         ),

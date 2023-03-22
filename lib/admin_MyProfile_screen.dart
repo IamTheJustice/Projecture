@@ -16,9 +16,9 @@ class _MyProfileScreenState extends State<MyProfileScreen> {
       body: Center(
         child: InkWell(
             onTap: () {
-              Get.to(() => AdminLoginScreen());
+              Get.to(() => const AdminLoginScreen());
             },
-            child: Text("Logout")),
+            child: const Text("Logout")),
       ),
     );
   }

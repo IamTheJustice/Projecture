@@ -47,7 +47,7 @@ class _DashBoardScreenState extends State<DashBoardScreen> {
                       padding: EdgeInsets.only(top: 2.h),
                       shrinkWrap: true,
                       scrollDirection: Axis.vertical,
-                      physics:const NeverScrollableScrollPhysics(),
+                      physics: const NeverScrollableScrollPhysics(),
                       itemCount: snapshot.data!.docs.length,
                       itemBuilder: (BuildContext context, int index) {
                         var data = snapshot.data!.docs[index];
@@ -156,7 +156,10 @@ class _DashBoardScreenState extends State<DashBoardScreen> {
                     );
                   } else {
                     return const Center(
-                      child: CircularProgressIndicator(),
+                      child: CircularProgressIndicator(
+                        color: ColorUtils.primaryColor,
+                        strokeWidth: 1.1,
+                      ),
                     );
                   }
                 }),

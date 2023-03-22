@@ -1,5 +1,3 @@
-import 'dart:developer';
-
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
@@ -8,12 +6,11 @@ import 'package:lottie/lottie.dart';
 import 'package:projecture_admin/utils/color_utils.dart';
 import 'package:projecture_admin/utils/fontStyle_utils.dart';
 import 'package:projecture_admin/utils/size_config.dart';
-import 'package:shared_preferences/shared_preferences.dart';
 import 'package:sizer/sizer.dart';
 
 class InProcess extends StatefulWidget {
   var Project;
-  InProcess({this.Project});
+  InProcess({super.key, this.Project});
 
   @override
   State<InProcess> createState() => _InProcessState();
@@ -41,7 +38,7 @@ class _InProcessState extends State<InProcess> {
                     return ListView.builder(
                         padding: EdgeInsets.only(top: 2.h),
                         shrinkWrap: true,
-                        physics: NeverScrollableScrollPhysics(),
+                        physics: const NeverScrollableScrollPhysics(),
                         itemCount: snapshot.data!.docs.length,
                         itemBuilder: (BuildContext context, int index) {
                           var data = snapshot.data!.docs[index];
@@ -214,7 +211,7 @@ class _InProcessState extends State<InProcess> {
                                           ),
                                           SizeConfig.sH05,
                                           Container(
-                                            decoration: BoxDecoration(
+                                            decoration: const BoxDecoration(
                                                 color: Colors.yellow,
                                                 borderRadius: BorderRadius.all(
                                                     Radius.circular(10.0))),
@@ -241,8 +238,14 @@ class _InProcessState extends State<InProcess> {
                             ],
                           );
                         });
-                  } else
-                    return CircularProgressIndicator();
+                  } else {
+                    return const Center(
+                      child: CircularProgressIndicator(
+                        color: ColorUtils.primaryColor,
+                        strokeWidth: 1.1,
+                      ),
+                    );
+                  }
                 })),
       ),
     );

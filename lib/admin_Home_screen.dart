@@ -6,6 +6,7 @@ import 'package:lottie/lottie.dart';
 import 'package:projecture_admin/admin_AddProject_screen.dart';
 import 'package:projecture_admin/admin_dashBoard_screen.dart';
 import 'package:projecture_admin/admin_event_screen.dart';
+import 'package:projecture_admin/admin_leader_screen.dart';
 import 'package:projecture_admin/upload_notice.dart';
 import 'package:projecture_admin/utils/color_utils.dart';
 import 'package:projecture_admin/utils/fontStyle_utils.dart';
@@ -47,6 +48,11 @@ class _AdminHomeScreenState extends State<AdminHomeScreen> {
       "icon": Icons.dashboard,
       "imagepath": "assets/images/dashboard.json",
       "title": 'DashBoard',
+    },
+    {
+      "icon": Icons.dashboard,
+      "imagepath": "assets/images/leader.json",
+      "title": 'Leader',
     },
   ];
 
@@ -146,6 +152,9 @@ class _AdminHomeScreenState extends State<AdminHomeScreen> {
                                         : const SizedBox();
                                     templist[index]['title'] == "DashBoard"
                                         ? Get.to(() => const DashBoardScreen())
+                                        : const SizedBox();
+                                    templist[index]['title'] == "Leader"
+                                        ? Get.to(() => const LeaderScreen())
                                         : const SizedBox();
                                   },
                                   child: Container(
