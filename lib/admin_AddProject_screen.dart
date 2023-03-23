@@ -160,47 +160,64 @@ class _AddProjectScreenState extends State<AddProjectScreen> {
                     ),
                     SizeConfig.sH2,
                     Center(
-                      child: AnimatedButton(
-                          height: 12.w,
-                          width: 60.w,
-                          text: "ADD PROJECT",
-                          textStyle: FontTextStyle.Proxima14Regular.copyWith(
-                              fontSize: 12.sp, color: ColorUtils.white),
-                          borderRadius: 10.0,
-                          backgroundColor: themeNotifier.isDark
-                              ? ColorUtils.black
-                              : ColorUtils.primaryColor,
-                          selectedBackgroundColor: ColorUtils.purple,
-                          transitionType: TransitionType.CENTER_ROUNDER,
-                          selectedTextColor: ColorUtils.white,
-                          isReverse: true,
-                          onPress: () {
-                            FirebaseFirestore.instance
-                                .collection(_auth.currentUser!.uid)
-                                .doc(_auth.currentUser!.uid)
-                                .collection("Projects")
-                                .doc(projectNameController.text)
-                                .set({
-                              'Project Name': projectNameController.text,
-                              'Editing Platform':
-                                  editingPlatformController.text,
-                              'Description': descriptionController.text,
-                            });
+                      child: GestureDetector(
+                        onTap: () {
+                          FirebaseFirestore.instance
+                              .collection(_auth.currentUser!.uid)
+                              .doc(_auth.currentUser!.uid)
+                              .collection("Projects")
+                              .doc(projectNameController.text)
+                              .set({
+                            'Project Name': projectNameController.text,
+                            'Editing Platform': editingPlatformController.text,
+                            'Description': descriptionController.text,
+                          });
 
-                            Get.showSnackbar(
-                              GetSnackBar(
-                                message: "Add Project Successfully",
-                                borderRadius: 10.0,
-                                margin: EdgeInsets.only(
-                                    left: 4.w, right: 4.w, bottom: 4.w),
-                                snackPosition: SnackPosition.BOTTOM,
-                                backgroundColor: themeNotifier.isDark
-                                    ? ColorUtils.black
-                                    : ColorUtils.primaryColor,
-                                duration: const Duration(seconds: 2),
+                          Get.showSnackbar(
+                            GetSnackBar(
+                              message: "Add Project Successfully",
+                              borderRadius: 10.0,
+                              margin: EdgeInsets.only(
+                                  left: 4.w, right: 4.w, bottom: 4.w),
+                              snackPosition: SnackPosition.BOTTOM,
+                              backgroundColor: themeNotifier.isDark
+                                  ? ColorUtils.black
+                                  : ColorUtils.primaryColor,
+                              duration: const Duration(seconds: 2),
+                            ),
+                          );
+                        },
+                        child: Container(
+                          height: 6.5.h,
+                          width: 60.w,
+                          decoration: BoxDecoration(
+                              gradient: LinearGradient(
+                                  colors: [
+                                    ColorUtils.primaryColor,
+                                    ColorUtils.primaryColor.withOpacity(0.5),
+                                  ],
+                                  begin: Alignment.topLeft,
+                                  end: Alignment.bottomRight),
+                              borderRadius: const BorderRadius.all(
+                                Radius.circular(10.0),
                               ),
-                            );
-                          }),
+                              boxShadow: const [
+                                BoxShadow(
+                                    color: Colors.black12,
+                                    offset: Offset(
+                                      5,
+                                      5,
+                                    ),
+                                    blurRadius: 10)
+                              ]),
+                          child: Center(
+                              child: Text(
+                            "ADD PROJECT",
+                            style: FontTextStyle.Proxima16Medium.copyWith(
+                                color: ColorUtils.white),
+                          )),
+                        ),
+                      ),
                     ),
                     Padding(
                       padding: EdgeInsets.only(top: 3.h, right: 5.w, left: 5.w),

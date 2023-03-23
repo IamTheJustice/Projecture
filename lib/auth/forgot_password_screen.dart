@@ -124,19 +124,31 @@ class _ForgotPasswordScreenState extends State<ForgotPasswordScreen> {
                 Get.to(() => const AdminLoginScreen());
               },
               child: Container(
-                height: 12.w,
+                height: 6.5.h,
                 width: 60.w,
-                decoration: const BoxDecoration(
-                    color: ColorUtils.primaryColor,
-                    borderRadius: BorderRadius.all(Radius.circular(8.0))),
+                decoration: BoxDecoration(
+                    gradient: LinearGradient(colors: [
+                      ColorUtils.primaryColor,
+                      ColorUtils.primaryColor.withOpacity(0.5),
+                    ], begin: Alignment.topLeft, end: Alignment.bottomRight),
+                    borderRadius: const BorderRadius.all(
+                      Radius.circular(10.0),
+                    ),
+                    boxShadow: const [
+                      BoxShadow(
+                          color: Colors.black12,
+                          offset: Offset(
+                            5,
+                            5,
+                          ),
+                          blurRadius: 10)
+                    ]),
                 child: Center(
-                  child: Text(
-                    "Send Email",
-                    style: FontTextStyle.Proxima16Medium.copyWith(
-                        color: ColorUtils.white,
-                        fontWeight: FontWeightClass.semiB),
-                  ),
-                ),
+                    child: Text(
+                  "Send Email",
+                  style: FontTextStyle.Proxima16Medium.copyWith(
+                      color: ColorUtils.white),
+                )),
               ),
             ),
           ),

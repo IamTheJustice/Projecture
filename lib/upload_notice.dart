@@ -210,48 +210,66 @@ class _AdminNoticeScreenState extends State<AdminNoticeScreen> {
                     ),
                   ),
                   SizeConfig.sH3,
-                  AnimatedButton(
-                      height: 12.w,
+                  GestureDetector(
+                    onTap: () {
+                      FocusScope.of(context).requestFocus(FocusNode());
+                      if (formkey.currentState!.validate()) {
+                        FirebaseFirestore.instance
+                            .collection(_auth.currentUser!.uid)
+                            .doc(_auth.currentUser!.uid)
+                            .collection('Notice')
+                            .doc()
+                            .set({
+                          'Notice Title': noticeNameController.text,
+                          'Description': noticeController.text,
+                          'Date': dateController.text
+                        });
+                        Get.showSnackbar(
+                          GetSnackBar(
+                            message: "Notice Added Succesfully",
+                            borderRadius: 10.0,
+                            margin: EdgeInsets.only(
+                                left: 4.w, right: 4.w, bottom: 4.w),
+                            snackPosition: SnackPosition.BOTTOM,
+                            backgroundColor: themeNotifier.isDark
+                                ? ColorUtils.black
+                                : ColorUtils.primaryColor,
+                            duration: const Duration(seconds: 2),
+                          ),
+                        );
+                      }
+                    },
+                    child: Container(
+                      height: 6.5.h,
                       width: 60.w,
-                      text: "SUBMIT",
-                      textStyle: FontTextStyle.Proxima14Regular.copyWith(
-                          fontSize: 12.sp, color: ColorUtils.white),
-                      borderRadius: 10.0,
-                      backgroundColor: themeNotifier.isDark
-                          ? ColorUtils.black
-                          : ColorUtils.primaryColor,
-                      selectedBackgroundColor: ColorUtils.purple,
-                      transitionType: TransitionType.CENTER_ROUNDER,
-                      selectedTextColor: ColorUtils.white,
-                      isReverse: true,
-                      onPress: () {
-                        FocusScope.of(context).requestFocus(FocusNode());
-                        if (formkey.currentState!.validate()) {
-                          FirebaseFirestore.instance
-                              .collection(_auth.currentUser!.uid)
-                              .doc(_auth.currentUser!.uid)
-                              .collection('Notice')
-                              .doc()
-                              .set({
-                            'Notice Title': noticeNameController.text,
-                            'Description': noticeController.text,
-                            'Date': dateController.text
-                          });
-                          Get.showSnackbar(
-                            GetSnackBar(
-                              message: "Notice Added Succesfully",
-                              borderRadius: 10.0,
-                              margin: EdgeInsets.only(
-                                  left: 4.w, right: 4.w, bottom: 4.w),
-                              snackPosition: SnackPosition.BOTTOM,
-                              backgroundColor: themeNotifier.isDark
-                                  ? ColorUtils.black
-                                  : ColorUtils.primaryColor,
-                              duration: const Duration(seconds: 2),
-                            ),
-                          );
-                        }
-                      }),
+                      decoration: BoxDecoration(
+                          gradient: LinearGradient(
+                              colors: [
+                                ColorUtils.primaryColor,
+                                ColorUtils.primaryColor.withOpacity(0.5),
+                              ],
+                              begin: Alignment.topLeft,
+                              end: Alignment.bottomRight),
+                          borderRadius: const BorderRadius.all(
+                            Radius.circular(10.0),
+                          ),
+                          boxShadow: const [
+                            BoxShadow(
+                                color: Colors.black12,
+                                offset: Offset(
+                                  5,
+                                  5,
+                                ),
+                                blurRadius: 10)
+                          ]),
+                      child: Center(
+                          child: Text(
+                        "SUBMIT",
+                        style: FontTextStyle.Proxima16Medium.copyWith(
+                            color: ColorUtils.white),
+                      )),
+                    ),
+                  ),
                 ],
               ),
             ),

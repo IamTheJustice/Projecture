@@ -72,14 +72,25 @@ class _AdminLoginScreenState extends State<AdminLoginScreen> {
                           color: ColorUtils.white,
                           borderRadius: BorderRadius.only(
                               topLeft: Radius.circular(90.0))),
-                      child: Center(
-                        child: Text(
-                          "Welcome Back",
-                          style: FontTextStyle.Proxima16Medium.copyWith(
-                              fontSize: 18.sp,
-                              color: ColorUtils.primaryColor,
-                              fontWeight: FontWeight.w600),
-                        ),
+                      child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.center,
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: [
+                          Text(
+                            "Welcome",
+                            style: FontTextStyle.Proxima16Medium.copyWith(
+                                fontSize: 18.sp,
+                                color: ColorUtils.primaryColor,
+                                fontWeight: FontWeight.w600),
+                          ),
+                          SizeConfig.sH05,
+                          Text(
+                            "Login to your existant account",
+                            style: FontTextStyle.Proxima14Regular.copyWith(
+                                color: ColorUtils.primaryColor,
+                                fontWeight: FontWeightClass.semiB),
+                          ),
+                        ],
                       ),
                     ),
                   )
@@ -167,9 +178,7 @@ class _AdminLoginScreenState extends State<AdminLoginScreen> {
                       if (v!.isEmpty) {
                         return 'Please enter password';
                       }
-                      if (v.length <= 8) {
-                        return 'Password must be atleast 8 characters long';
-                      }
+                      return null;
                     },
                     obscureText: isCheckPassword,
                     decoration: InputDecoration(
@@ -216,9 +225,7 @@ class _AdminLoginScreenState extends State<AdminLoginScreen> {
               SizeConfig.sH3,
               InkWell(
                 onTap: () async {
-                  log('hbjcdnkf==========${ColorUtils.primaryColor.value}');
-                  debugPrint(
-                      '=-=-=-=-=-=-=-=-${ColorUtils.primaryColor.value}');
+                  log('=================${ColorUtils.primaryColor.value}');
                   FocusScope.of(context).requestFocus();
                   if (formkey.currentState!.validate()) {
                     final newUser = await _auth.signInWithEmailAndPassword(
@@ -244,17 +251,17 @@ class _AdminLoginScreenState extends State<AdminLoginScreen> {
                   }
                 },
                 child: Container(
-                  height: 7.h,
+                  height: 6.5.h,
                   width: 60.w,
                   decoration: BoxDecoration(
-                      gradient: LinearGradient(
-                          colors: [Colors.red, Colors.red.shade200],
-                          begin: Alignment.topLeft,
-                          end: Alignment.bottomRight),
-                      borderRadius: BorderRadius.all(
+                      gradient: LinearGradient(colors: [
+                        ColorUtils.primaryColor,
+                        ColorUtils.primaryColor.withOpacity(0.5),
+                      ], begin: Alignment.topLeft, end: Alignment.bottomRight),
+                      borderRadius: const BorderRadius.all(
                         Radius.circular(10.0),
                       ),
-                      boxShadow: [
+                      boxShadow: const [
                         BoxShadow(
                             color: Colors.black12,
                             offset: Offset(
@@ -263,7 +270,12 @@ class _AdminLoginScreenState extends State<AdminLoginScreen> {
                             ),
                             blurRadius: 10)
                       ]),
-                  child: Center(child: Text("LOGIN")),
+                  child: Center(
+                      child: Text(
+                    "LOGIN",
+                    style: FontTextStyle.Proxima16Medium.copyWith(
+                        color: ColorUtils.white),
+                  )),
                 ),
               ),
               SizeConfig.sH2,

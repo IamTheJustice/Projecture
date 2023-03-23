@@ -241,108 +241,123 @@ class _AdminEventScreenState extends State<AdminEventScreen> {
                       ),
                     ),
                     SizeConfig.sH3,
-                    AnimatedButton(
-                        height: 12.w,
-                        width: 60.w,
-                        text: "SUBMIT",
-                        textStyle: FontTextStyle.Proxima14Regular.copyWith(
-                            fontSize: 12.sp, color: ColorUtils.white),
-                        borderRadius: 10.0,
-                        backgroundColor: themeNotifier.isDark
-                            ? ColorUtils.black
-                            : ColorUtils.primaryColor,
-                        selectedBackgroundColor: ColorUtils.purple,
-                        transitionType: TransitionType.CENTER_ROUNDER,
-                        selectedTextColor: ColorUtils.white,
-                        isReverse: true,
-                        onPress: () {
-                          FocusScope.of(context).requestFocus(FocusNode());
-                          if (formkey.currentState!.validate()) {
-                            showDialog(
-                                context: context,
-                                builder: (context) {
-                                  return AlertDialog(
-                                    title: Column(
-                                      children: [
-                                        Center(
-                                          child: Lottie.asset(
-                                              "assets/icons/eventtCelebration.json",
-                                              height: 40.w),
-                                        ),
-                                      ],
-                                    ),
-                                    content: Text(
-                                        'are you sure want to event Add?',
-                                        textAlign: TextAlign.center,
-                                        style: FontTextStyle.Proxima16Medium
-                                            .copyWith(
-                                                color:
-                                                    ColorUtils.primaryColor)),
-                                    actions: [
-                                      InkWell(
-                                        onTap: () {
-                                          Get.back();
-                                          Get.showSnackbar(
-                                            GetSnackBar(
-                                              message:
-                                                  "Event Added Succesfully",
-                                              borderRadius: 10.0,
-                                              margin: EdgeInsets.only(
-                                                  left: 4.w,
-                                                  right: 4.w,
-                                                  bottom: 4.w),
-                                              snackPosition:
-                                                  SnackPosition.BOTTOM,
-                                              backgroundColor:
-                                                  themeNotifier.isDark
-                                                      ? ColorUtils.black
-                                                      : ColorUtils.primaryColor,
-                                              duration:
-                                                  const Duration(seconds: 1),
-                                            ),
-                                          );
-                                        },
-                                        child: Container(
-                                          height: 10.w,
-                                          width: 25.w,
-                                          decoration: const BoxDecoration(
-                                              borderRadius: BorderRadius.all(
-                                                  Radius.circular(8.0)),
-                                              color: ColorUtils.primaryColor),
-                                          child: const Center(
-                                            child: Text(
-                                              "Done",
-                                              style: TextStyle(
-                                                  color: ColorUtils.white),
-                                            ),
-                                          ),
-                                        ),
-                                      ),
-                                      InkWell(
-                                        onTap: () {
-                                          Get.back();
-                                        },
-                                        child: Container(
-                                          height: 10.w,
-                                          width: 25.w,
-                                          decoration: const BoxDecoration(
-                                              borderRadius: BorderRadius.all(
-                                                  Radius.circular(8.0)),
-                                              color: ColorUtils.primaryColor),
-                                          child: const Center(
-                                            child: Text(
-                                              "Cancle",
-                                              style: TextStyle(
-                                                  color: ColorUtils.white),
-                                            ),
-                                          ),
-                                        ),
+                    GestureDetector(
+                      onTap: () {
+                        FocusScope.of(context).requestFocus(FocusNode());
+                        if (formkey.currentState!.validate()) {
+                          showDialog(
+                              context: context,
+                              builder: (context) {
+                                return AlertDialog(
+                                  title: Column(
+                                    children: [
+                                      Center(
+                                        child: Lottie.asset(
+                                            "assets/icons/eventtCelebration.json",
+                                            height: 40.w),
                                       ),
                                     ],
-                                  );
-                                });
-                          }
-                        }),
+                                  ),
+                                  content: Text(
+                                      'are you sure want to event Add?',
+                                      textAlign: TextAlign.center,
+                                      style: FontTextStyle.Proxima16Medium
+                                          .copyWith(
+                                              color: ColorUtils.primaryColor)),
+                                  actions: [
+                                    InkWell(
+                                      onTap: () {
+                                        Get.back();
+                                        Get.showSnackbar(
+                                          GetSnackBar(
+                                            message: "Event Added Succesfully",
+                                            borderRadius: 10.0,
+                                            margin: EdgeInsets.only(
+                                                left: 4.w,
+                                                right: 4.w,
+                                                bottom: 4.w),
+                                            snackPosition: SnackPosition.BOTTOM,
+                                            backgroundColor:
+                                                themeNotifier.isDark
+                                                    ? ColorUtils.black
+                                                    : ColorUtils.primaryColor,
+                                            duration:
+                                                const Duration(seconds: 1),
+                                          ),
+                                        );
+                                      },
+                                      child: Container(
+                                        height: 10.w,
+                                        width: 25.w,
+                                        decoration: const BoxDecoration(
+                                            borderRadius: BorderRadius.all(
+                                                Radius.circular(8.0)),
+                                            color: ColorUtils.primaryColor),
+                                        child: const Center(
+                                          child: Text(
+                                            "Done",
+                                            style: TextStyle(
+                                                color: ColorUtils.white),
+                                          ),
+                                        ),
+                                      ),
+                                    ),
+                                    InkWell(
+                                      onTap: () {
+                                        Get.back();
+                                      },
+                                      child: Container(
+                                        height: 10.w,
+                                        width: 25.w,
+                                        decoration: const BoxDecoration(
+                                            borderRadius: BorderRadius.all(
+                                                Radius.circular(8.0)),
+                                            color: ColorUtils.primaryColor),
+                                        child: const Center(
+                                          child: Text(
+                                            "Cancle",
+                                            style: TextStyle(
+                                                color: ColorUtils.white),
+                                          ),
+                                        ),
+                                      ),
+                                    ),
+                                  ],
+                                );
+                              });
+                        }
+                      },
+                      child: Container(
+                        height: 6.5.h,
+                        width: 60.w,
+                        decoration: BoxDecoration(
+                            gradient: LinearGradient(
+                                colors: [
+                                  ColorUtils.primaryColor,
+                                  ColorUtils.primaryColor.withOpacity(0.5),
+                                ],
+                                begin: Alignment.topLeft,
+                                end: Alignment.bottomRight),
+                            borderRadius: const BorderRadius.all(
+                              Radius.circular(10.0),
+                            ),
+                            boxShadow: const [
+                              BoxShadow(
+                                  color: Colors.black12,
+                                  offset: Offset(
+                                    5,
+                                    5,
+                                  ),
+                                  blurRadius: 10)
+                            ]),
+                        child: Center(
+                            child: Text(
+                          "SUBMIT",
+                          style: FontTextStyle.Proxima16Medium.copyWith(
+                              color: ColorUtils.white),
+                        )),
+                      ),
+                    ),
                   ],
                 ),
               ),

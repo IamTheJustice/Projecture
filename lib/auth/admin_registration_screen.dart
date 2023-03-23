@@ -107,7 +107,7 @@ class _AdminRegisterScreenState extends State<AdminRegisterScreen> {
                             mainAxisAlignment: MainAxisAlignment.center,
                             children: [
                               Text(
-                                "Register",
+                                "Sign Up",
                                 style: FontTextStyle.Proxima16Medium.copyWith(
                                     fontSize: 18.sp,
                                     color: ColorUtils.primaryColor,
@@ -428,67 +428,87 @@ class _AdminRegisterScreenState extends State<AdminRegisterScreen> {
                   ),
                   SizeConfig.sH3,
                   Center(
-                    child: AnimatedButton(
-                        height: 12.w,
-                        width: 60.w,
-                        text: "REGISTER",
-                        textStyle: FontTextStyle.Proxima14Regular.copyWith(
-                            fontSize: 12.sp, color: ColorUtils.white),
-                        borderRadius: 10.0,
-                        backgroundColor: ColorUtils.primaryColor,
-                        selectedBackgroundColor: ColorUtils.purple,
-                        transitionType: TransitionType.CENTER_ROUNDER,
-                        selectedTextColor: ColorUtils.white,
-                        isReverse: true,
-                        onPress: () async {
-                          log("list ${list1.where((element) => element['isSelect'] == true).toList().isEmpty}");
-                          FocusScope.of(context).requestFocus();
-                          if (formkey.currentState!.validate()) {
-                            // try {
-                            final newuser = await _auth
-                                .createUserWithEmailAndPassword(
-                                    email: emailController.text,
-                                    password: passwordController.text)
-                                .then((value) {
-                              firebase
-                                  .collection(_auth.currentUser!.uid)
-                                  .doc(_auth.currentUser!.uid)
-                                  .set({
-                                'Full Name': fullnameController.text,
-                                'Address': addressController.text,
-                                'Company Name': companynameController.text,
-                                'Email': emailController.text,
-                                'Start date': dateController.text,
-                                'Password': passwordController.text
-                              });
-                              firebase
-                                  .collection('Company List')
-                                  .doc(_auth.currentUser!.uid)
-                                  .set({
-                                'Company Name': companynameController.text,
-                                'uid': _auth.currentUser!.uid
-                              });
-                              Get.showSnackbar(
-                                GetSnackBar(
-                                  message: "Register Succesfully",
-                                  borderRadius: 10.0,
-                                  margin: EdgeInsets.only(
-                                      left: 4.w, right: 4.w, bottom: 4.w),
-                                  snackPosition: SnackPosition.BOTTOM,
-                                  backgroundColor: ColorUtils.primaryColor,
-                                  duration: const Duration(seconds: 2),
-                                ),
-                              );
-                              Future.delayed(
-                                const Duration(seconds: 3),
-                                () {
-                                  Get.to(() => const AdminLoginScreen());
-                                },
-                              );
+                    child: GestureDetector(
+                      onTap: () async {
+                        log("list ${list1.where((element) => element['isSelect'] == true).toList().isEmpty}");
+                        FocusScope.of(context).requestFocus();
+                        if (formkey.currentState!.validate()) {
+                          // try {
+                          final newuser = await _auth
+                              .createUserWithEmailAndPassword(
+                                  email: emailController.text,
+                                  password: passwordController.text)
+                              .then((value) {
+                            firebase
+                                .collection(_auth.currentUser!.uid)
+                                .doc(_auth.currentUser!.uid)
+                                .set({
+                              'Full Name': fullnameController.text,
+                              'Address': addressController.text,
+                              'Company Name': companynameController.text,
+                              'Email': emailController.text,
+                              'Start date': dateController.text,
+                              'Password': passwordController.text
                             });
-                            setState(() {});
-                          }
-                        }),
+                            firebase
+                                .collection('Company List')
+                                .doc(_auth.currentUser!.uid)
+                                .set({
+                              'Company Name': companynameController.text,
+                              'uid': _auth.currentUser!.uid
+                            });
+                            Get.showSnackbar(
+                              GetSnackBar(
+                                message: "Register Succesfully",
+                                borderRadius: 10.0,
+                                margin: EdgeInsets.only(
+                                    left: 4.w, right: 4.w, bottom: 4.w),
+                                snackPosition: SnackPosition.BOTTOM,
+                                backgroundColor: ColorUtils.primaryColor,
+                                duration: const Duration(seconds: 2),
+                              ),
+                            );
+                            Future.delayed(
+                              const Duration(seconds: 3),
+                              () {
+                                Get.to(() => const AdminLoginScreen());
+                              },
+                            );
+                          });
+                          setState(() {});
+                        }
+                      },
+                      child: Container(
+                        height: 6.5.h,
+                        width: 60.w,
+                        decoration: BoxDecoration(
+                            gradient: LinearGradient(
+                                colors: [
+                                  ColorUtils.primaryColor,
+                                  ColorUtils.primaryColor.withOpacity(0.5),
+                                ],
+                                begin: Alignment.topLeft,
+                                end: Alignment.bottomRight),
+                            borderRadius: const BorderRadius.all(
+                              Radius.circular(10.0),
+                            ),
+                            boxShadow: const [
+                              BoxShadow(
+                                  color: Colors.black12,
+                                  offset: Offset(
+                                    5,
+                                    5,
+                                  ),
+                                  blurRadius: 10)
+                            ]),
+                        child: Center(
+                            child: Text(
+                          "SIGNUP",
+                          style: FontTextStyle.Proxima16Medium.copyWith(
+                              color: ColorUtils.white),
+                        )),
+                      ),
+                    ),
                   ),
                   SizeConfig.sH1,
                   Row(
@@ -505,7 +525,7 @@ class _AdminRegisterScreenState extends State<AdminRegisterScreen> {
                             Get.to(() => const AdminLoginScreen());
                           },
                           child: Text(
-                            "Sign In",
+                            "Log In",
                             style: FontTextStyle.Proxima14Regular.copyWith(
                                 color: ColorUtils.primaryColor,
                                 fontWeight: FontWeightClass.semiB),
