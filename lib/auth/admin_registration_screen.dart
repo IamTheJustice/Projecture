@@ -1,7 +1,6 @@
 import 'dart:developer';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_animated_button/flutter_animated_button.dart';
 import 'package:get/get.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:intl/intl.dart';
@@ -431,7 +430,7 @@ class _AdminRegisterScreenState extends State<AdminRegisterScreen> {
                     child: GestureDetector(
                       onTap: () async {
                         log("list ${list1.where((element) => element['isSelect'] == true).toList().isEmpty}");
-                        FocusScope.of(context).requestFocus();
+                        FocusManager.instance.primaryFocus?.unfocus();
                         if (formkey.currentState!.validate()) {
                           // try {
                           final newuser = await _auth

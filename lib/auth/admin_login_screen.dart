@@ -225,8 +225,7 @@ class _AdminLoginScreenState extends State<AdminLoginScreen> {
               SizeConfig.sH3,
               InkWell(
                 onTap: () async {
-                  log('=================${ColorUtils.primaryColor.value}');
-                  FocusScope.of(context).requestFocus();
+                  FocusManager.instance.primaryFocus?.unfocus();
                   if (formkey.currentState!.validate()) {
                     final newUser = await _auth.signInWithEmailAndPassword(
                         email: emailController.text,

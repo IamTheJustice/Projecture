@@ -5,6 +5,7 @@ import 'package:get/get.dart';
 import 'package:lottie/lottie.dart';
 import 'package:projecture_admin/utils/color_utils.dart';
 import 'package:projecture_admin/utils/fontStyle_utils.dart';
+import 'package:projecture_admin/utils/shimmer_effect.dart';
 import 'package:projecture_admin/utils/size_config.dart';
 import 'package:sizer/sizer.dart';
 
@@ -18,6 +19,19 @@ class TodoScreen extends StatefulWidget {
 
 class _TodoScreenState extends State<TodoScreen> {
   final _auth = FirebaseAuth.instance;
+  bool isShimmer = true;
+  Future durationShimmer() async {
+    await Future.delayed(Duration(milliseconds: 500));
+    isShimmer = false;
+    setState(() {});
+  }
+
+  @override
+  void initState() {
+    super.initState();
+    durationShimmer();
+  }
+
   @override
   Widget build(BuildContext context) {
     String Project = widget.Project;
@@ -25,205 +39,230 @@ class _TodoScreenState extends State<TodoScreen> {
       body: ScrollConfiguration(
         behavior: const ScrollBehavior().copyWith(overscroll: false),
         child: SingleChildScrollView(
-            child: StreamBuilder<QuerySnapshot>(
-                stream: FirebaseFirestore.instance
-                    .collection(_auth.currentUser!.uid)
-                    .doc(_auth.currentUser!.uid)
-                    .collection(Project)
-                    .doc(Project)
-                    .collection('task')
-                    .snapshots(),
-                builder: (context, snapshot) {
-                  if (snapshot.hasData) {
-                    return ListView.builder(
-                        padding: EdgeInsets.only(top: 2.h),
-                        shrinkWrap: true,
-                        physics: const NeverScrollableScrollPhysics(),
-                        itemCount: snapshot.data!.docs.length,
-                        itemBuilder: (BuildContext context, int index) {
-                          var data = snapshot.data!.docs[index];
-                          return Column(
-                            children: [
-                              Padding(
-                                padding: EdgeInsets.symmetric(
-                                    vertical: 2.w, horizontal: 4.w),
-                                child: Container(
-                                    width: Get.width,
-                                    decoration: BoxDecoration(
-                                        boxShadow: [
-                                          BoxShadow(
-                                            color: ColorUtils.black
-                                                .withOpacity(0.2),
-                                            spreadRadius: 0.5,
-                                            blurRadius: 9.0,
-                                            offset: const Offset(0,
-                                                3), // changes position of shadow
-                                          ),
-                                        ],
-                                        borderRadius: BorderRadius.circular(10),
-                                        color: ColorUtils.white),
-                                    child: Padding(
-                                      padding: EdgeInsets.only(
-                                          left: 3.w, bottom: 2.h),
-                                      child: Column(
-                                        crossAxisAlignment:
-                                            CrossAxisAlignment.start,
-                                        children: [
-                                          SizeConfig.sH2,
-                                          Row(
-                                            children: [
-                                              Text(
-                                                "Task Name :",
-                                                style: FontTextStyle
-                                                        .Proxima16Medium
-                                                    .copyWith(
-                                                        color: ColorUtils
-                                                            .primaryColor),
-                                              ),
-                                              Text(
-                                                data['task'],
-                                                style: FontTextStyle
-                                                        .Proxima16Medium
-                                                    .copyWith(
-                                                        fontWeight:
-                                                            FontWeight.bold,
-                                                        color: ColorUtils
-                                                            .primaryColor),
-                                              ),
+            child: isShimmer == true
+                ? taskList()
+                : StreamBuilder<QuerySnapshot>(
+                    stream: FirebaseFirestore.instance
+                        .collection(_auth.currentUser!.uid)
+                        .doc(_auth.currentUser!.uid)
+                        .collection(Project)
+                        .doc(Project)
+                        .collection('task')
+                        .snapshots(),
+                    builder: (context, snapshot) {
+                      if (snapshot.hasData) {
+                        return ListView.builder(
+                            padding: EdgeInsets.only(top: 2.h),
+                            shrinkWrap: true,
+                            physics: const NeverScrollableScrollPhysics(),
+                            itemCount: snapshot.data!.docs.length,
+                            itemBuilder: (BuildContext context, int index) {
+                              var data = snapshot.data!.docs[index];
+                              return Column(
+                                children: [
+                                  Padding(
+                                    padding: EdgeInsets.symmetric(
+                                        vertical: 2.w, horizontal: 4.w),
+                                    child: Container(
+                                        width: Get.width,
+                                        decoration: BoxDecoration(
+                                          gradient: LinearGradient(
+                                            colors: [
+                                              ColorUtils.primaryColor,
+                                              ColorUtils.purple,
+                                              ColorUtils.purple
+                                                  .withOpacity(0.8),
                                             ],
+                                            begin: Alignment.topLeft,
+                                            end: Alignment.bottomRight,
                                           ),
-                                          SizeConfig.sH2,
-                                          data['Image'] == ""
-                                              ? Center(
-                                                  child: Column(
-                                                    children: [
-                                                      Lottie.asset(
-                                                          "assets/icons/noImage.json",
-                                                          height: 10.w),
-                                                      Text(
-                                                        " No Image",
-                                                        style: FontTextStyle
-                                                                .Proxima16Medium
-                                                            .copyWith(
-                                                                color:
-                                                                    Colors.red),
-                                                      ),
-                                                    ],
-                                                  ),
-                                                )
-                                              : Image.network(
-                                                  data['Image'],
-                                                  height: 25.h,
-                                                  width: 50.w,
-                                                  fit: BoxFit.fill,
-                                                ),
-                                          SizeConfig.sH2,
-                                          Row(
-                                            children: [
-                                              Text(
-                                                "AssignDate :",
-                                                style: FontTextStyle
-                                                        .Proxima16Medium
-                                                    .copyWith(
-                                                        color: ColorUtils
-                                                            .primaryColor),
-                                              ),
-                                              Text(
-                                                data['AssignDate'],
-                                                style: FontTextStyle
-                                                        .Proxima16Medium
-                                                    .copyWith(
-                                                        fontWeight:
-                                                            FontWeight.bold,
-                                                        color: ColorUtils
-                                                            .primaryColor),
-                                              ),
-                                            ],
-                                          ),
-                                          SizeConfig.sH05,
-                                          Row(
-                                            children: [
-                                              Text(
-                                                "Due Date :",
-                                                style: FontTextStyle
-                                                        .Proxima16Medium
-                                                    .copyWith(
-                                                        color: ColorUtils
-                                                            .primaryColor),
-                                              ),
-                                              Text(
-                                                data['LastDate'],
-                                                style: FontTextStyle
-                                                        .Proxima16Medium
-                                                    .copyWith(
-                                                        fontWeight:
-                                                            FontWeight.bold,
-                                                        color: ColorUtils
-                                                            .primaryColor),
-                                              ),
-                                            ],
-                                          ),
-                                          SizeConfig.sH05,
-                                          Row(
-                                            children: [
-                                              Text(
-                                                "User Name  :",
-                                                style: FontTextStyle
-                                                        .Proxima16Medium
-                                                    .copyWith(
-                                                        color: ColorUtils
-                                                            .primaryColor),
-                                              ),
-                                              Text(
-                                                data['Email'],
-                                                style: FontTextStyle
-                                                        .Proxima16Medium
-                                                    .copyWith(
-                                                        fontWeight:
-                                                            FontWeight.bold,
-                                                        color: ColorUtils
-                                                            .primaryColor),
-                                              ),
-                                            ],
-                                          ),
-                                          SizeConfig.sH05,
-                                          Container(
-                                            decoration: const BoxDecoration(
-                                                color: Colors.yellow,
-                                                borderRadius: BorderRadius.all(
-                                                    Radius.circular(10.0))),
-                                            child: Padding(
-                                              padding:
-                                                  const EdgeInsets.all(5.0),
-                                              child: Text(
-                                                data['Name'],
-                                                style: FontTextStyle
-                                                        .Proxima16Medium
-                                                    .copyWith(
-                                                        fontWeight:
-                                                            FontWeightClass
-                                                                .extraB,
-                                                        color: ColorUtils
-                                                            .primaryColor),
-                                              ),
+                                          boxShadow: [
+                                            BoxShadow(
+                                              color: Colors.deepPurple.shade400,
+                                              offset: const Offset(0, 3),
+                                              blurRadius: 15,
+                                              spreadRadius: -5,
                                             ),
+                                          ],
+                                          borderRadius:
+                                              BorderRadius.circular(10),
+                                        ),
+                                        child: Padding(
+                                          padding: EdgeInsets.only(
+                                              left: 3.w, bottom: 2.h),
+                                          child: Column(
+                                            crossAxisAlignment:
+                                                CrossAxisAlignment.start,
+                                            children: [
+                                              SizeConfig.sH2,
+                                              Row(
+                                                children: [
+                                                  Text(
+                                                    "Task Name : ",
+                                                    style: FontTextStyle
+                                                            .Proxima16Medium
+                                                        .copyWith(
+                                                            color: ColorUtils
+                                                                .white),
+                                                  ),
+                                                  Text(
+                                                    data['task'],
+                                                    style: FontTextStyle
+                                                            .Proxima16Medium
+                                                        .copyWith(
+                                                            fontWeight:
+                                                                FontWeight.bold,
+                                                            color: ColorUtils
+                                                                .white),
+                                                  ),
+                                                ],
+                                              ),
+                                              SizeConfig.sH2,
+                                              data['Image'] == ""
+                                                  ? Center(
+                                                      child: Column(
+                                                        children: [
+                                                          Lottie.asset(
+                                                              "assets/icons/noImage.json",
+                                                              height: 10.w),
+                                                          Text(
+                                                            " No Image",
+                                                            style: FontTextStyle
+                                                                    .Proxima16Medium
+                                                                .copyWith(
+                                                                    color: Colors
+                                                                        .red),
+                                                          ),
+                                                        ],
+                                                      ),
+                                                    )
+                                                  : Center(
+                                                      child: Container(
+                                                        height: 25.h,
+                                                        width: 50.w,
+                                                        decoration: BoxDecoration(
+                                                            border: Border.all(
+                                                                color: ColorUtils
+                                                                    .white)),
+                                                        child: Image.network(
+                                                          data['Image'],
+                                                          fit: BoxFit.fill,
+                                                        ),
+                                                      ),
+                                                    ),
+                                              SizeConfig.sH2,
+                                              Row(
+                                                children: [
+                                                  Text(
+                                                    "AssignDate : ",
+                                                    style: FontTextStyle
+                                                            .Proxima16Medium
+                                                        .copyWith(
+                                                            color: ColorUtils
+                                                                .white),
+                                                  ),
+                                                  Text(
+                                                    data['AssignDate'],
+                                                    style: FontTextStyle
+                                                            .Proxima16Medium
+                                                        .copyWith(
+                                                            fontWeight:
+                                                                FontWeight.bold,
+                                                            color: ColorUtils
+                                                                .white),
+                                                  ),
+                                                ],
+                                              ),
+                                              SizeConfig.sH05,
+                                              Row(
+                                                children: [
+                                                  Text(
+                                                    "Due Date : ",
+                                                    style: FontTextStyle
+                                                            .Proxima16Medium
+                                                        .copyWith(
+                                                            color: ColorUtils
+                                                                .white),
+                                                  ),
+                                                  Text(
+                                                    data['LastDate'],
+                                                    style: FontTextStyle
+                                                            .Proxima16Medium
+                                                        .copyWith(
+                                                            fontWeight:
+                                                                FontWeight.bold,
+                                                            color: ColorUtils
+                                                                .white),
+                                                  ),
+                                                ],
+                                              ),
+                                              SizeConfig.sH05,
+                                              Row(
+                                                children: [
+                                                  Text(
+                                                    "User Name  : ",
+                                                    style: FontTextStyle
+                                                            .Proxima16Medium
+                                                        .copyWith(
+                                                            color: ColorUtils
+                                                                .white),
+                                                  ),
+                                                  Text(
+                                                    data['Email'],
+                                                    style: FontTextStyle
+                                                            .Proxima16Medium
+                                                        .copyWith(
+                                                            fontWeight:
+                                                                FontWeight.bold,
+                                                            color: ColorUtils
+                                                                .white),
+                                                  ),
+                                                ],
+                                              ),
+                                              SizeConfig.sH1,
+                                              Container(
+                                                decoration: BoxDecoration(
+                                                    border: Border.all(
+                                                        color:
+                                                            ColorUtils.white),
+                                                    color:
+                                                        ColorUtils.primaryColor,
+                                                    borderRadius:
+                                                        const BorderRadius.all(
+                                                            Radius.circular(
+                                                                8.0))),
+                                                child: Padding(
+                                                  padding: EdgeInsets.only(
+                                                      top: 0.5.h,
+                                                      left: 3.w,
+                                                      right: 3.w,
+                                                      bottom: 0.5.h),
+                                                  child: Text(
+                                                    data['Name'],
+                                                    style: FontTextStyle
+                                                            .Proxima16Medium
+                                                        .copyWith(
+                                                            color: ColorUtils
+                                                                .white),
+                                                  ),
+                                                ),
+                                              ),
+                                            ],
                                           ),
-                                        ],
-                                      ),
-                                    )),
-                              ),
-                            ],
-                          );
-                        });
-                  } else {
-                    return const Center(
-                      child: CircularProgressIndicator(
-                        color: ColorUtils.primaryColor,
-                        strokeWidth: 1.1,
-                      ),
-                    );
-                  }
-                })),
+                                        )),
+                                  ),
+                                ],
+                              );
+                            });
+                      } else {
+                        return const Center(
+                          child: CircularProgressIndicator(
+                            color: ColorUtils.primaryColor,
+                            strokeWidth: 1.1,
+                          ),
+                        );
+                      }
+                    })),
       ),
     );
   }

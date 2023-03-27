@@ -99,6 +99,7 @@ class _ForgotPasswordScreenState extends State<ForgotPasswordScreen> {
           SizeConfig.sH3,
           GestureDetector(
             onTap: () {
+              FocusManager.instance.primaryFocus?.unfocus();
               setState(() async {
                 try {
                   await _auth.sendPasswordResetEmail(

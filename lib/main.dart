@@ -2,7 +2,7 @@ import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:projecture_admin/app_theme/model_theme.dart';
-import 'package:projecture_admin/auth/admin_login_screen.dart';
+import 'package:projecture_admin/splash_screen.dart';
 import 'package:provider/provider.dart';
 import 'package:sizer/sizer.dart';
 
@@ -30,7 +30,7 @@ class MyApp extends StatelessWidget {
               theme: themeNotifier.isDark
                   ? ThemeData(brightness: Brightness.dark)
                   : ThemeData(brightness: Brightness.light),
-              home: AdminLoginScreen());
+              home: const SplashScreen());
         });
       }),
     );
