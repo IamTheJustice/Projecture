@@ -2,7 +2,6 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:projecture_admin/auth/admin_login_screen.dart';
 import 'package:projecture_admin/utils/color_utils.dart';
 import 'package:projecture_admin/utils/fontStyle_utils.dart';
 import 'package:projecture_admin/utils/size_config.dart';
@@ -98,31 +97,26 @@ class _ForgotPasswordScreenState extends State<ForgotPasswordScreen> {
           ),
           SizeConfig.sH3,
           GestureDetector(
-            onTap: () {
-              FocusManager.instance.primaryFocus?.unfocus();
-              setState(() async {
-                try {
-                  await _auth.sendPasswordResetEmail(
-                      email: emailController.text);
-                  Get.showSnackbar(
-                    GetSnackBar(
-                      message: "Email send Successfully",
-                      borderRadius: 10.0,
-                      margin:
-                          EdgeInsets.only(left: 4.w, right: 4.w, bottom: 4.w),
-                      snackPosition: SnackPosition.BOTTOM,
-                      backgroundColor: ColorUtils.primaryColor,
-                      duration: const Duration(seconds: 1),
-                    ),
-                  );
-                } catch (e) {
-                  print(e);
-                }
-              });
-            },
-            child: GestureDetector(
               onTap: () {
-                Get.to(() => const AdminLoginScreen());
+                setState(() async {
+                  try {
+                    await _auth.sendPasswordResetEmail(
+                        email: emailController.text);
+                    Get.showSnackbar(
+                      GetSnackBar(
+                        message: "Email send Successfully",
+                        borderRadius: 10.0,
+                        margin:
+                            EdgeInsets.only(left: 4.w, right: 4.w, bottom: 4.w),
+                        snackPosition: SnackPosition.BOTTOM,
+                        backgroundColor: ColorUtils.primaryColor,
+                        duration: const Duration(seconds: 1),
+                      ),
+                    );
+                  } catch (e) {
+                    print(e);
+                  }
+                });
               },
               child: Container(
                 height: 6.5.h,
@@ -150,9 +144,7 @@ class _ForgotPasswordScreenState extends State<ForgotPasswordScreen> {
                   style: FontTextStyle.Proxima16Medium.copyWith(
                       color: ColorUtils.white),
                 )),
-              ),
-            ),
-          ),
+              )),
         ],
       ),
     );

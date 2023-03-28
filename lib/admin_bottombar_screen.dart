@@ -23,7 +23,7 @@ class _BottomNavBarScreenState extends State<BottomNavBarScreen> {
   var pageAll = [
     const AdminHomeScreen(),
     const AdminChatScreen(),
-    const MyProfileScreen(),
+    const MyProfile(),
   ];
 
   var myIndex = 0;

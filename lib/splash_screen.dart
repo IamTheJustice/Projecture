@@ -9,6 +9,8 @@ import 'package:projecture_admin/utils/fontStyle_utils.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:sizer/sizer.dart';
 
+import 'admin_bottombar_screen.dart';
+
 class SplashScreen extends StatefulWidget {
   const SplashScreen({Key? key}) : super(key: key);
 
@@ -25,14 +27,11 @@ class _SplashScreenState extends State<SplashScreen> {
   }
 
   @override
-  String? cid;
   String? uid;
-  String? leader;
+
   setData() async {
     final pref = await SharedPreferences.getInstance();
-    cid = pref.getString("companyId");
     uid = pref.getString("userId");
-    leader = pref.getString("leaderId");
     log("""
     
    userid       ${pref.getString("userId")};
@@ -72,7 +71,7 @@ class _SplashScreenState extends State<SplashScreen> {
           duration: 4000,
           splashTransition: SplashTransition.sizeTransition,
           backgroundColor: ColorUtils.white,
-          nextScreen: AdminLoginScreen(),
+          nextScreen: uid != null ? BottomNavBarScreen() : AdminLoginScreen(),
         ));
   }
 }

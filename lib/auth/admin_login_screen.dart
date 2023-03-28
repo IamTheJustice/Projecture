@@ -1,9 +1,6 @@
-import 'dart:developer';
-
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_animated_button/flutter_animated_button.dart';
 import 'package:get/get.dart';
 import 'package:projecture_admin/admin_bottombar_screen.dart';
 import 'package:projecture_admin/auth/admin_registration_screen.dart';
@@ -11,6 +8,7 @@ import 'package:projecture_admin/auth/forgot_password_screen.dart';
 import 'package:projecture_admin/utils/color_utils.dart';
 import 'package:projecture_admin/utils/fontStyle_utils.dart';
 import 'package:projecture_admin/utils/size_config.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 import 'package:sizer/sizer.dart';
 
 class AdminLoginScreen extends StatefulWidget {
@@ -227,6 +225,8 @@ class _AdminLoginScreenState extends State<AdminLoginScreen> {
                 onTap: () async {
                   FocusManager.instance.primaryFocus?.unfocus();
                   if (formkey.currentState!.validate()) {
+                    final pref = await SharedPreferences.getInstance();
+                    pref.setString("userId", _auth.currentUser!.uid);
                     final newUser = await _auth.signInWithEmailAndPassword(
                         email: emailController.text,
                         password: passwordController.text);

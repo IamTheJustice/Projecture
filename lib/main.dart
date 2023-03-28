@@ -25,7 +25,7 @@ class MyApp extends StatelessWidget {
         return Sizer(builder: (BuildContext context, Orientation orientation,
             DeviceType deviceType) {
           return GetMaterialApp(
-              title: 'Flutter Demo',
+              title: 'Flutter Admin',
               debugShowCheckedModeBanner: false,
               theme: themeNotifier.isDark
                   ? ThemeData(brightness: Brightness.dark)
