@@ -1,6 +1,7 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:full_screen_image/full_screen_image.dart';
 import 'package:get/get.dart';
 import 'package:lottie/lottie.dart';
 import 'package:projecture_admin/utils/color_utils.dart';
@@ -58,6 +59,8 @@ class _TodoScreenState extends State<TodoScreen> {
                             itemCount: snapshot.data!.docs.length,
                             itemBuilder: (BuildContext context, int index) {
                               var data = snapshot.data!.docs[index];
+                              DateTime LastDate =
+                                  DateTime.parse(data['LastDate']);
                               return Column(
                                 children: [
                                   Padding(
@@ -137,16 +140,22 @@ class _TodoScreenState extends State<TodoScreen> {
                                                       ),
                                                     )
                                                   : Center(
-                                                      child: Container(
-                                                        height: 25.h,
-                                                        width: 50.w,
-                                                        decoration: BoxDecoration(
-                                                            border: Border.all(
-                                                                color: ColorUtils
-                                                                    .white)),
-                                                        child: Image.network(
-                                                          data['Image'],
-                                                          fit: BoxFit.fill,
+                                                      child: FullScreenWidget(
+                                                        disposeLevel:
+                                                            DisposeLevel.Medium,
+                                                        backgroundIsTransparent:
+                                                            true,
+                                                        child: Container(
+                                                          height: 25.h,
+                                                          width: 50.w,
+                                                          decoration: BoxDecoration(
+                                                              border: Border.all(
+                                                                  color: ColorUtils
+                                                                      .white)),
+                                                          child: Image.network(
+                                                            data['Image'],
+                                                            fit: BoxFit.fill,
+                                                          ),
                                                         ),
                                                       ),
                                                     ),
@@ -185,7 +194,7 @@ class _TodoScreenState extends State<TodoScreen> {
                                                                 .white),
                                                   ),
                                                   Text(
-                                                    data['LastDate'],
+                                                    "${LastDate.year}-${LastDate.month}-${LastDate.day}",
                                                     style: FontTextStyle
                                                             .Proxima16Medium
                                                         .copyWith(

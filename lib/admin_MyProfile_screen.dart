@@ -1,7 +1,5 @@
 import 'dart:developer';
 import 'dart:io';
-
-import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
@@ -42,6 +40,7 @@ class _MyProfileState extends State<MyProfile> {
    userid       ${pref.getString("userId")};
     company id -- ${pref.getString("companyId")};
     """);
+    setState(() {});
   }
 
   final _auth = FirebaseAuth.instance;
@@ -54,6 +53,8 @@ class _MyProfileState extends State<MyProfile> {
     return Consumer<ModelTheme>(
         builder: (context, ModelTheme themeNotifier, child) {
       return Scaffold(
+        backgroundColor:
+            themeNotifier.isDark ? Colors.black.withOpacity(0.8) : Colors.white,
         body: Column(
           children: [
             Center(

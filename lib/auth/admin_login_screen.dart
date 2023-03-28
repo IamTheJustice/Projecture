@@ -225,11 +225,11 @@ class _AdminLoginScreenState extends State<AdminLoginScreen> {
                 onTap: () async {
                   FocusManager.instance.primaryFocus?.unfocus();
                   if (formkey.currentState!.validate()) {
-                    final pref = await SharedPreferences.getInstance();
-                    pref.setString("userId", _auth.currentUser!.uid);
                     final newUser = await _auth.signInWithEmailAndPassword(
                         email: emailController.text,
                         password: passwordController.text);
+                    final pref = await SharedPreferences.getInstance();
+                    pref.setString("userId", _auth.currentUser!.uid);
                     Get.showSnackbar(
                       GetSnackBar(
                         message: "Login Succesfully",
