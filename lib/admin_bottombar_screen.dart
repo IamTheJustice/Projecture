@@ -1,10 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:get/get.dart';
 
 import 'package:projecture_admin/admin_Chat_screen.dart';
 import 'package:projecture_admin/admin_MyProfile_screen.dart';
 import 'package:projecture_admin/admin_home_screen.dart';
 import 'package:projecture_admin/app_theme/model_theme.dart';
+import 'package:projecture_admin/card_details_screen.dart';
 import 'package:projecture_admin/utils/color_utils.dart';
 import 'package:projecture_admin/utils/fontStyle_utils.dart';
 import 'package:projecture_admin/utils/size_config.dart';
@@ -59,21 +61,30 @@ class _BottomNavBarScreenState extends State<BottomNavBarScreen> {
           actions: [
             Padding(
               padding: EdgeInsets.only(right: 1.h),
-              child: IconButton(
-                  onPressed: () {
-                    themeNotifier.isDark = !themeNotifier.isDark;
-                  },
-                  icon: themeNotifier.isDark
-                      ? const Icon(
-                          Icons.nights_stay,
-                          color: ColorUtils.white,
-                          size: 25.0,
-                        )
-                      : const Icon(
-                          Icons.wb_sunny,
-                          color: ColorUtils.white,
-                          size: 25.0,
-                        )),
+              child: Row(
+                children: [
+                  IconButton(
+                      onPressed: () {
+                        Get.to(() => CardDetailsScreen());
+                      },
+                      icon: Icon(Icons.add_chart)),
+                  IconButton(
+                      onPressed: () {
+                        themeNotifier.isDark = !themeNotifier.isDark;
+                      },
+                      icon: themeNotifier.isDark
+                          ? const Icon(
+                              Icons.nights_stay,
+                              color: ColorUtils.white,
+                              size: 25.0,
+                            )
+                          : const Icon(
+                              Icons.wb_sunny,
+                              color: ColorUtils.white,
+                              size: 25.0,
+                            )),
+                ],
+              ),
             ),
           ],
         ),

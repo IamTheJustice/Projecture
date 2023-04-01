@@ -67,7 +67,7 @@ class _AdminHomeScreenState extends State<AdminHomeScreen> {
         behavior: HitTestBehavior.translucent,
         child: Scaffold(
             backgroundColor: themeNotifier.isDark
-                ? Colors.black.withOpacity(0.8)
+                ? Colors.black.withOpacity(0.2)
                 : Colors.white,
             body: ScrollConfiguration(
               behavior: const ScrollBehavior().copyWith(overscroll: false),
