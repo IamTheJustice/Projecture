@@ -136,7 +136,9 @@ class _AdminRegisterScreenState extends State<AdminRegisterScreen> {
                       validator: (v) {
                         if (v!.isEmpty) {
                           return "please name required";
-                        } else if (!RegExp(r'^[a-zA-Z]+$').hasMatch(v)) {
+                        } else if (!RegExp(
+                                r'^[[A-Z]|[a-z]][[A-Z]|[a-z]|\\d|[_]]{7,29}$')
+                            .hasMatch(v)) {
                           return "please valid name ";
                         }
                         return null;
@@ -167,7 +169,9 @@ class _AdminRegisterScreenState extends State<AdminRegisterScreen> {
                       validator: (v) {
                         if (v!.isEmpty) {
                           return "please address required";
-                        } else if (!RegExp(r'^[a-zA-Z]+$').hasMatch(v)) {
+                        } else if (!RegExp(
+                                r'^[[A-Z]|[a-z]][[A-Z]|[a-z]|\\d|[_]]{7,29}$')
+                            .hasMatch(v)) {
                           return "please valid address ";
                         }
                         return null;
@@ -197,7 +201,9 @@ class _AdminRegisterScreenState extends State<AdminRegisterScreen> {
                       validator: (v) {
                         if (v!.isEmpty) {
                           return "please company name required";
-                        } else if (!RegExp(r'^[a-zA-Z]+$').hasMatch(v)) {
+                        } else if (!RegExp(
+                                r'^[[A-Z]|[a-z]][[A-Z]|[a-z]|\\d|[_]]{7,29}$')
+                            .hasMatch(v)) {
                           return "please valid company name ";
                         }
                         return null;
@@ -307,9 +313,7 @@ class _AdminRegisterScreenState extends State<AdminRegisterScreen> {
                         if (v!.isEmpty) {
                           return 'Please enter password';
                         }
-                        if (v.length <= 8) {
-                          return 'Password must be atleast 8 characters long';
-                        }
+                        return null;
                       },
                       decoration: InputDecoration(
                           contentPadding: EdgeInsets.all(4.w),
@@ -447,7 +451,8 @@ class _AdminRegisterScreenState extends State<AdminRegisterScreen> {
                               'Company Name': companynameController.text,
                               'Email': emailController.text,
                               'Start date': dateController.text,
-                              'Password': passwordController.text
+                              'Password': passwordController.text,
+                              'uid': _auth.currentUser!.uid,
                             });
                             firebase
                                 .collection('Company List')

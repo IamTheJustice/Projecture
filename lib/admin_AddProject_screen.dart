@@ -65,7 +65,9 @@ class _AddProjectScreenState extends State<AddProjectScreen> {
                         validator: (v) {
                           if (v!.isEmpty) {
                             return "please name required";
-                          } else if (!RegExp(r'^[a-zA-Z]+$').hasMatch(v)) {
+                          } else if (!RegExp(
+                                  r'^[[A-Z]|[a-z]][[A-Z]|[a-z]|\\d|[_]]{7,29}$')
+                              .hasMatch(v)) {
                             return "please valid name ";
                           }
                           return null;
@@ -102,8 +104,10 @@ class _AddProjectScreenState extends State<AddProjectScreen> {
                         validator: (v) {
                           if (v!.isEmpty) {
                             return "please address required";
-                          } else if (!RegExp(r'^[a-zA-Z]+$').hasMatch(v)) {
-                            return "please valid address ";
+                          } else if (!RegExp(
+                                  r'^[[A-Z]|[a-z]][[A-Z]|[a-z]|\\d|[_]]{7,29}$')
+                              .hasMatch(v)) {
+                            return "please valid Editing platform ";
                           }
                           return null;
                         },
@@ -138,8 +142,10 @@ class _AddProjectScreenState extends State<AddProjectScreen> {
                         validator: (v) {
                           if (v!.isEmpty) {
                             return "please address required";
-                          } else if (!RegExp(r'^[a-zA-Z]+$').hasMatch(v)) {
-                            return "please valid address ";
+                          } else if (!RegExp(
+                                  r'^[[A-Z]|[a-z]][[A-Z]|[a-z]|\\d|[_]]{7,29}$')
+                              .hasMatch(v)) {
+                            return "please valid description ";
                           }
                           return null;
                         },
@@ -162,30 +168,33 @@ class _AddProjectScreenState extends State<AddProjectScreen> {
                     Center(
                       child: GestureDetector(
                         onTap: () {
-                          FirebaseFirestore.instance
-                              .collection(_auth.currentUser!.uid)
-                              .doc(_auth.currentUser!.uid)
-                              .collection("Projects")
-                              .doc(projectNameController.text)
-                              .set({
-                            'Project Name': projectNameController.text,
-                            'Editing Platform': editingPlatformController.text,
-                            'Description': descriptionController.text,
-                          });
+                          if (formkey.currentState!.validate()) {
+                            FirebaseFirestore.instance
+                                .collection(_auth.currentUser!.uid)
+                                .doc(_auth.currentUser!.uid)
+                                .collection("Projects")
+                                .doc(projectNameController.text)
+                                .set({
+                              'Project Name': projectNameController.text,
+                              'Editing Platform':
+                                  editingPlatformController.text,
+                              'Description': descriptionController.text,
+                            });
 
-                          Get.showSnackbar(
-                            GetSnackBar(
-                              message: "Add Project Successfully",
-                              borderRadius: 10.0,
-                              margin: EdgeInsets.only(
-                                  left: 4.w, right: 4.w, bottom: 4.w),
-                              snackPosition: SnackPosition.BOTTOM,
-                              backgroundColor: themeNotifier.isDark
-                                  ? ColorUtils.black
-                                  : ColorUtils.primaryColor,
-                              duration: const Duration(seconds: 2),
-                            ),
-                          );
+                            Get.showSnackbar(
+                              GetSnackBar(
+                                message: "Add Project Successfully",
+                                borderRadius: 10.0,
+                                margin: EdgeInsets.only(
+                                    left: 4.w, right: 4.w, bottom: 4.w),
+                                snackPosition: SnackPosition.BOTTOM,
+                                backgroundColor: themeNotifier.isDark
+                                    ? ColorUtils.black
+                                    : ColorUtils.primaryColor,
+                                duration: const Duration(seconds: 2),
+                              ),
+                            );
+                          }
                         },
                         child: Container(
                           height: 6.5.h,

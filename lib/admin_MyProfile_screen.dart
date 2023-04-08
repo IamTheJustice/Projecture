@@ -1,39 +1,38 @@
 import 'dart:developer';
-import 'dart:io';
+
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
-import 'package:get/get.dart';
-import 'package:image_picker/image_picker.dart';
-import 'package:lottie/lottie.dart';
-
+import 'package:projecture_admin/app_theme/model_theme.dart';
 import 'package:projecture_admin/utils/color_utils.dart';
 import 'package:projecture_admin/utils/fontStyle_utils.dart';
 import 'package:projecture_admin/utils/size_config.dart';
+
 import 'package:provider/provider.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:sizer/sizer.dart';
 
-import 'app_theme/model_theme.dart';
-
-class MyProfile extends StatefulWidget {
-  const MyProfile({Key? key}) : super(key: key);
+class MyProfileScreen extends StatefulWidget {
+  const MyProfileScreen({Key? key}) : super(key: key);
 
   @override
-  State<MyProfile> createState() => _MyProfileState();
+  State<MyProfileScreen> createState() => _MyProfileScreenState();
 }
 
-class _MyProfileState extends State<MyProfile> {
+class _MyProfileScreenState extends State<MyProfileScreen> {
   @override
   void initState() {
     setData();
     super.initState();
   }
 
-  String? cid;
+  String? id;
   String? uid;
+  final _auth = FirebaseAuth.instance;
+
   setData() async {
     final pref = await SharedPreferences.getInstance();
-    cid = pref.getString("companyId");
+    id = pref.getString("companyId");
     uid = pref.getString("userId");
     log("""
     
@@ -43,201 +42,178 @@ class _MyProfileState extends State<MyProfile> {
     setState(() {});
   }
 
-  final _auth = FirebaseAuth.instance;
-  File? imageFile;
-  final formkey = GlobalKey<FormState>();
-  bool isCheckPassword = true;
-  final TextEditingController passwordController = TextEditingController();
   @override
   Widget build(BuildContext context) {
     return Consumer<ModelTheme>(
         builder: (context, ModelTheme themeNotifier, child) {
-      return Scaffold(
-        backgroundColor:
-            themeNotifier.isDark ? Colors.black.withOpacity(0.8) : Colors.white,
-        body: Column(
-          children: [
-            Center(
-              child: Container(
-                child: imageFile != null
-                    ? Container(
-                        width: 31.w,
-                        height: 31.w,
-                        alignment: Alignment.center,
-                        decoration: const BoxDecoration(
-                            shape: BoxShape.circle,
-                            gradient: LinearGradient(
-                                begin: Alignment.topCenter,
-                                end: Alignment.bottomLeft,
-                                colors: [
-                                  Color(0xFFFF7171),
-                                  Color(0xFFA156A0),
-                                  Color(0xFF7564A0),
-                                ])),
-                        child: Container(
-                          width: 29.w,
-                          height: 29.w,
-                          decoration: BoxDecoration(
-                              shape: BoxShape.circle,
-                              color: Colors.white,
-                              image: DecorationImage(
-                                image: FileImage(imageFile!),
-                                fit: BoxFit.cover,
-                              )),
-                        ),
-                      )
-                    : Container(
-                        decoration: BoxDecoration(
-                          shape: BoxShape.circle,
-                          color: ColorUtils.blueF0,
-                          border: Border.all(
-                              color: ColorUtils.purple,
-                              width: 4.1,
-                              style: BorderStyle.solid),
-                        ),
-                        height: 30.w,
-                        width: 30.w,
-                        child: Center(
-                          child: Lottie.asset(
-                            "assets/lotties/profile.json",
-                          ),
-                        ),
-                      ),
-              ),
-            ),
-            SizeConfig.sH1,
-            Center(
-                child: InkWell(
-              onTap: () {
-                chooseImageBottomSheet();
-              },
-              child: Text(
-                "Upload picture",
-                style: FontTextStyle.Proxima16Medium.copyWith(
-                    decoration: TextDecoration.underline,
-                    color: themeNotifier.isDark
-                        ? ColorUtils.white
-                        : ColorUtils.primaryColor),
-              ),
-            )),
-          ],
+      return GestureDetector(
+        onTapDown: (_) => FocusManager.instance.primaryFocus?.unfocus(),
+        behavior: HitTestBehavior.translucent,
+        child: Scaffold(
+          body: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              SizeConfig.sH5,
+              StreamBuilder<QuerySnapshot>(
+                  stream: FirebaseFirestore.instance
+                      .collection(_auth.currentUser!.uid)
+                      .snapshots(),
+                  builder: (context, snapshot) {
+                    if (snapshot.hasData) {
+                      return SizedBox(
+                        child: ListView.builder(
+                            itemCount: snapshot.data!.docs.length,
+                            shrinkWrap: true,
+                            physics: const NeverScrollableScrollPhysics(),
+                            itemBuilder: (context, i) {
+                              var data = snapshot.data!.docs[i];
+                              return Padding(
+                                padding: EdgeInsets.symmetric(horizontal: 4.w),
+                                child: Container(
+                                  decoration: BoxDecoration(
+                                      border: Border.all(
+                                          color: ColorUtils.primaryColor,
+                                          width: 2)),
+                                  child: Column(
+                                    children: [
+                                      SizeConfig.sH2,
+                                      Center(
+                                        child: Text(data['Company Name'],
+                                            style: FontTextStyle.Proxima16Medium
+                                                .copyWith(
+                                                    color:
+                                                        ColorUtils.primaryColor,
+                                                    fontSize: 15.sp,
+                                                    fontWeight: FontWeightClass
+                                                        .extraB)),
+                                      ),
+                                      SizeConfig.sH2,
+                                      Center(
+                                        child: Container(
+                                          decoration: BoxDecoration(
+                                              border: Border.all(
+                                                  color: ColorUtils.purple,
+                                                  width: 3)),
+                                          child: Image.network(
+                                            data['ProfileImage'],
+                                            height: 20.h,
+                                            width: 40.w,
+                                            fit: BoxFit.fill,
+                                          ),
+                                        ),
+                                      ),
+                                      Padding(
+                                        padding: EdgeInsets.only(
+                                            left: 9.w, top: 2.h),
+                                        child: Column(
+                                          mainAxisAlignment:
+                                              MainAxisAlignment.start,
+                                          children: [
+                                            Row(
+                                              children: [
+                                                Text("Full Name : ",
+                                                    style: FontTextStyle
+                                                            .Proxima16Medium
+                                                        .copyWith(
+                                                            color: ColorUtils
+                                                                .primaryColor,
+                                                            fontWeight:
+                                                                FontWeightClass
+                                                                    .semiB)),
+                                                Text(data['Full Name'],
+                                                    style: FontTextStyle
+                                                            .Proxima16Medium
+                                                        .copyWith(
+                                                      color: ColorUtils
+                                                          .primaryColor,
+                                                    )),
+                                              ],
+                                            ),
+                                            SizeConfig.sH1,
+                                            Row(
+                                              children: [
+                                                Text("Address : ",
+                                                    style: FontTextStyle
+                                                            .Proxima16Medium
+                                                        .copyWith(
+                                                            color: ColorUtils
+                                                                .primaryColor,
+                                                            fontWeight:
+                                                                FontWeightClass
+                                                                    .semiB)),
+                                                Text(data['Address'],
+                                                    style: FontTextStyle
+                                                            .Proxima16Medium
+                                                        .copyWith(
+                                                      color: ColorUtils
+                                                          .primaryColor,
+                                                    )),
+                                              ],
+                                            ),
+                                            SizeConfig.sH1,
+                                            Row(
+                                              children: [
+                                                Text("Start Date : ",
+                                                    style: FontTextStyle
+                                                            .Proxima16Medium
+                                                        .copyWith(
+                                                            color: ColorUtils
+                                                                .primaryColor,
+                                                            fontWeight:
+                                                                FontWeightClass
+                                                                    .semiB)),
+                                                Text(data['Start date'],
+                                                    style: FontTextStyle
+                                                            .Proxima16Medium
+                                                        .copyWith(
+                                                      color: ColorUtils
+                                                          .primaryColor,
+                                                    )),
+                                              ],
+                                            ),
+                                            SizeConfig.sH1,
+                                            Row(
+                                              children: [
+                                                Text("Email : ",
+                                                    style: FontTextStyle
+                                                            .Proxima16Medium
+                                                        .copyWith(
+                                                            color: ColorUtils
+                                                                .primaryColor,
+                                                            fontWeight:
+                                                                FontWeightClass
+                                                                    .semiB)),
+                                                Text(data['Email'],
+                                                    style: FontTextStyle
+                                                            .Proxima16Medium
+                                                        .copyWith(
+                                                      color: ColorUtils
+                                                          .primaryColor,
+                                                    )),
+                                              ],
+                                            ),
+                                          ],
+                                        ),
+                                      ),
+                                      SizeConfig.sH4,
+                                    ],
+                                  ),
+                                ),
+                              );
+                            }),
+                      );
+                    } else {
+                      return const Center(
+                        child: CircularProgressIndicator(
+                            color: ColorUtils.primaryColor),
+                      );
+                    }
+                  }),
+              SizeConfig.sH2,
+            ],
+          ),
         ),
       );
     });
-  }
-
-  _getFromGallery() async {
-    PickedFile? pickedFile = await ImagePicker().getImage(
-      source: ImageSource.gallery,
-      maxWidth: 1800,
-      maxHeight: 1800,
-    );
-    if (pickedFile != null) {
-      setState(() {
-        imageFile = File(pickedFile.path);
-      });
-    }
-  }
-
-  _getFromCamera() async {
-    PickedFile? pickedFile = await ImagePicker().getImage(
-      source: ImageSource.camera,
-      maxWidth: 1800,
-      maxHeight: 1800,
-    );
-    if (pickedFile != null) {
-      setState(() {
-        imageFile = File(pickedFile.path);
-      });
-    }
-  }
-
-  Future chooseImageBottomSheet() {
-    return Get.bottomSheet(
-        //isScrollControlled: true,
-        //isDismissible: true,
-        backgroundColor: Colors.white,
-        shape: const RoundedRectangleBorder(
-            borderRadius: BorderRadius.only(
-                topLeft: Radius.circular(20),
-                topRight: Radius.circular(20))), StatefulBuilder(
-      builder: ((context, setState) {
-        return SizedBox(
-          height: 34.w,
-          child: Padding(
-            padding: EdgeInsets.only(top: 1.h, right: 3.w),
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.end,
-              children: [
-                InkWell(
-                  onTap: () {
-                    Get.back();
-                  },
-                  child: const Icon(
-                    Icons.close,
-                    color: ColorUtils.grey,
-                  ),
-                ),
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  crossAxisAlignment: CrossAxisAlignment.center,
-                  children: [
-                    Column(
-                      children: [
-                        InkWell(
-                            onTap: () {
-                              _getFromGallery();
-                              Get.back();
-                            },
-                            child: CircleAvatar(
-                              backgroundColor: ColorUtils.primaryColor,
-                              radius: 25.0,
-                              child: Icon(
-                                Icons.add_photo_alternate_rounded,
-                                color: ColorUtils.white,
-                                size: 9.w,
-                              ),
-                            )),
-                        SizeConfig.sH1,
-                        Text(
-                          "Gallery",
-                          style: FontTextStyle.Proxima16Medium.copyWith(
-                              color: ColorUtils.primaryColor),
-                        )
-                      ],
-                    ),
-                    SizeConfig.sW4,
-                    Column(
-                      children: [
-                        InkWell(
-                            onTap: () {
-                              _getFromCamera();
-                              Get.back();
-                            },
-                            child: CircleAvatar(
-                              backgroundColor: ColorUtils.primaryColor,
-                              radius: 25.0,
-                              child: Icon(
-                                Icons.camera,
-                                color: ColorUtils.white,
-                                size: 10.w,
-                              ),
-                            )),
-                        SizeConfig.sH1,
-                        Text(
-                          "Camera",
-                          style: FontTextStyle.Proxima16Medium.copyWith(
-                              color: ColorUtils.primaryColor),
-                        )
-                      ],
-                    ),
-                  ],
-                ),
-              ],
-            ),
-          ),
-        );
-      }),
-    ));
   }
 }
