@@ -1,3 +1,5 @@
+import 'dart:developer';
+
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
@@ -8,6 +10,7 @@ import 'package:lottie/lottie.dart';
 import 'package:projecture_admin/app_theme/model_theme.dart';
 import 'package:projecture_admin/utils/color_utils.dart';
 import 'package:projecture_admin/utils/fontStyle_utils.dart';
+import 'package:projecture_admin/utils/local_notification_services.dart';
 import 'package:projecture_admin/utils/size_config.dart';
 import 'package:provider/provider.dart';
 import 'package:sizer/sizer.dart';
@@ -211,7 +214,7 @@ class _AdminNoticeScreenState extends State<AdminNoticeScreen> {
                   ),
                   SizeConfig.sH3,
                   GestureDetector(
-                    onTap: () {
+                    onTap: () async {
                       FocusScope.of(context).requestFocus(FocusNode());
                       if (formkey.currentState!.validate()) {
                         FirebaseFirestore.instance
@@ -224,6 +227,26 @@ class _AdminNoticeScreenState extends State<AdminNoticeScreen> {
                           'Description': noticeController.text,
                           'Date': dateController.text
                         });
+                        QuerySnapshot<Map<String, dynamic>> userList =
+                            await FirebaseFirestore.instance
+                                .collection(_auth.currentUser!.uid)
+                                .doc(_auth.currentUser!.uid)
+                                .collection('user')
+                                .get();
+                        List<String> fcmTokenList = [];
+                        userList.docs.forEach((element) {
+                          fcmTokenList.add(element['fcmToken']);
+                        });
+                        log('userList ${userList.docs.length} ${fcmTokenList.length}');
+                        try {
+                          await LocalNotificationServices.sendNotificationGroup(
+                            userToken: fcmTokenList,
+                            message: noticeController.text,
+                            title: noticeNameController.text,
+                          );
+                        } catch (e) {
+                          log('Eroorrr :$e');
+                        }
                         Get.showSnackbar(
                           GetSnackBar(
                             message: "Notice Added Succesfully",

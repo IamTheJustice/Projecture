@@ -1,3 +1,5 @@
+import 'dart:developer';
+
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_animated_button/flutter_animated_button.dart';
@@ -5,6 +7,7 @@ import 'package:get/get.dart';
 import 'package:projecture_admin/app_theme/model_theme.dart';
 import 'package:projecture_admin/utils/color_utils.dart';
 import 'package:projecture_admin/utils/fontStyle_utils.dart';
+import 'package:projecture_admin/utils/local_notification_services.dart';
 import 'package:projecture_admin/utils/size_config.dart';
 import 'package:provider/provider.dart';
 import 'package:sizer/sizer.dart';
@@ -291,7 +294,7 @@ class _AddProjectScreenState extends State<AddProjectScreen> {
                                                   var data =
                                                       snapshot.data!.docs[i];
                                                   return InkWell(
-                                                    onTap: () {
+                                                    onTap: () async {
                                                       snapshot.data!.docs[i]
                                                           .reference
                                                           .collection('Invite')
@@ -308,6 +311,20 @@ class _AddProjectScreenState extends State<AddProjectScreen> {
                                                             descriptionController
                                                                 .text,
                                                       });
+                                                      try {
+                                                        await LocalNotificationServices
+                                                            .sendNotification(
+                                                          token:
+                                                              data['fcmToken'],
+                                                          message:
+                                                              'The company invite you for a ${projectNameController.text} project',
+                                                          title:
+                                                              projectNameController
+                                                                  .text,
+                                                        );
+                                                      } catch (e) {
+                                                        log('Eroorrr :$e');
+                                                      }
                                                       setState(() {
                                                         if (temparray.contains(
                                                             data['Uid'])) {
