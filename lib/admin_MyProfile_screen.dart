@@ -205,7 +205,8 @@ class _MyProfileScreenState extends State<MyProfileScreen> {
                     } else {
                       return const Center(
                         child: CircularProgressIndicator(
-                            color: ColorUtils.primaryColor),
+                          color: ColorUtils.primaryColor,
+                        ),
                       );
                     }
                   }),
