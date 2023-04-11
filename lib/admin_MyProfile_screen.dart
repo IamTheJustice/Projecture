@@ -3,6 +3,7 @@ import 'dart:developer';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:lottie/lottie.dart';
 import 'package:projecture_admin/app_theme/model_theme.dart';
 import 'package:projecture_admin/utils/color_utils.dart';
 import 'package:projecture_admin/utils/fontStyle_utils.dart';
@@ -88,23 +89,38 @@ class _MyProfileScreenState extends State<MyProfileScreen> {
                                                         .extraB)),
                                       ),
                                       SizeConfig.sH2,
-                                      Center(
-                                        child: Container(
-                                          decoration: BoxDecoration(
-                                              border: Border.all(
-                                                  color: ColorUtils.purple,
-                                                  width: 3)),
-                                          child: Image.network(
-                                            data['ProfileImage'],
-                                            height: 20.h,
-                                            width: 40.w,
-                                            fit: BoxFit.fill,
-                                          ),
-                                        ),
-                                      ),
+                                      data['ProfileImage'] != ""
+                                          ? Center(
+                                              child: Container(
+                                                decoration: BoxDecoration(
+                                                    border: Border.all(
+                                                        color:
+                                                            ColorUtils.purple,
+                                                        width: 3)),
+                                                child: Image.network(
+                                                  data['ProfileImage'],
+                                                  height: 35.h,
+                                                  width: 55.w,
+                                                  fit: BoxFit.fill,
+                                                ),
+                                              ),
+                                            )
+                                          : Center(
+                                              child: Container(
+                                                  height: 35.h,
+                                                  width: 55.w,
+                                                  decoration: BoxDecoration(
+                                                      border: Border.all(
+                                                          color:
+                                                              ColorUtils.purple,
+                                                          width: 3)),
+                                                  child: Lottie.asset(
+                                                      "assets/lotties/warning.json",
+                                                      height: 20.w)),
+                                            ),
                                       Padding(
                                         padding: EdgeInsets.only(
-                                            left: 9.w, top: 2.h),
+                                            left: 9.w, top: 3.h),
                                         child: Column(
                                           mainAxisAlignment:
                                               MainAxisAlignment.start,
@@ -129,7 +145,7 @@ class _MyProfileScreenState extends State<MyProfileScreen> {
                                                     )),
                                               ],
                                             ),
-                                            SizeConfig.sH1,
+                                            SizeConfig.sH2,
                                             Row(
                                               children: [
                                                 Text("Address : ",
@@ -150,7 +166,7 @@ class _MyProfileScreenState extends State<MyProfileScreen> {
                                                     )),
                                               ],
                                             ),
-                                            SizeConfig.sH1,
+                                            SizeConfig.sH2,
                                             Row(
                                               children: [
                                                 Text("Start Date : ",
@@ -171,7 +187,7 @@ class _MyProfileScreenState extends State<MyProfileScreen> {
                                                     )),
                                               ],
                                             ),
-                                            SizeConfig.sH1,
+                                            SizeConfig.sH2,
                                             Row(
                                               children: [
                                                 Text("Email : ",

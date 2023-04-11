@@ -5,7 +5,6 @@ import 'package:get/get.dart';
 import 'package:lottie/lottie.dart';
 import 'package:projecture_admin/admin_AddProject_screen.dart';
 import 'package:projecture_admin/admin_dashBoard_screen.dart';
-import 'package:projecture_admin/admin_event_screen.dart';
 import 'package:projecture_admin/admin_leader_screen.dart';
 import 'package:projecture_admin/app_theme/model_theme.dart';
 import 'package:projecture_admin/upload_notice.dart';
@@ -40,11 +39,6 @@ class _AdminHomeScreenState extends State<AdminHomeScreen> {
       "icon": Icons.notifications_active_outlined,
       "imagepath": "assets/images/notice.json",
       "title": 'Notice'
-    },
-    {
-      "icon": Icons.event,
-      "imagepath": "assets/images/events.json",
-      "title": 'Events',
     },
     {
       "icon": Icons.dashboard,
@@ -172,10 +166,6 @@ class _AdminHomeScreenState extends State<AdminHomeScreen> {
                                           templist[index]['title'] == "Notice"
                                               ? Get.to(() =>
                                                   const AdminNoticeScreen())
-                                              : const SizedBox();
-                                          templist[index]['title'] == "Events"
-                                              ? Get.to(() =>
-                                                  const AdminEventScreen())
                                               : const SizedBox();
                                           templist[index]['title'] ==
                                                   "DashBoard"

@@ -82,7 +82,7 @@ Future<List<AllDetail>> fetchHomeDetail({
   List<AllDetail> main = [];
   List<AllDetail> main1 = [];
   final pref = await SharedPreferences.getInstance();
-  String? cid = pref.getString("companyId");
+  String? cid = pref.getString("userId");
   List<AllDetail> xx = [];
   // if (Provider.of<UserContactProvider>(context, listen: false)
   //     .userContact

@@ -1,8 +1,11 @@
+import 'dart:developer';
+
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:projecture_admin/app_theme/model_theme.dart';
 import 'package:projecture_admin/utils/color_utils.dart';
+import 'package:projecture_admin/utils/const/function/local_notification_services.dart';
 import 'package:projecture_admin/utils/fontStyle_utils.dart';
 import 'package:provider/provider.dart';
 import 'package:sizer/sizer.dart';
@@ -67,7 +70,18 @@ class _LeaderAssignState extends State<LeaderAssign> {
                                                   ? ColorUtils.primaryColor
                                                   : ColorUtils.white),
                                     ),
-                                    onPressed: () {
+                                    onPressed: () async {
+                                      try {
+                                        await LocalNotificationServices
+                                            .sendNotification(
+                                          token: data['fcmToken'],
+                                          message:
+                                              "Congratulation....you are now project leader for ${projectName}....please login again for more rights",
+                                          title: "Hurrah !!!",
+                                        );
+                                      } catch (e) {
+                                        log('Eroorrr :$e');
+                                      }
                                       FirebaseFirestore.instance
                                           .collection(_auth.currentUser!.uid)
                                           .doc(_auth.currentUser!.uid)

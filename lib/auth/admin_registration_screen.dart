@@ -10,6 +10,8 @@ import 'package:projecture_admin/utils/fontStyle_utils.dart';
 import 'package:projecture_admin/utils/size_config.dart';
 import 'package:sizer/sizer.dart';
 
+import '../utils/const/function/local_notification_services.dart';
+
 class AdminRegisterScreen extends StatefulWidget {
   const AdminRegisterScreen({Key? key}) : super(key: key);
 
@@ -441,7 +443,9 @@ class _AdminRegisterScreenState extends State<AdminRegisterScreen> {
                               .createUserWithEmailAndPassword(
                                   email: emailController.text,
                                   password: passwordController.text)
-                              .then((value) {
+                              .then((value) async {
+                            String? fcmToken =
+                                await LocalNotificationServices.getFCMToken();
                             firebase
                                 .collection(_auth.currentUser!.uid)
                                 .doc(_auth.currentUser!.uid)
@@ -453,6 +457,7 @@ class _AdminRegisterScreenState extends State<AdminRegisterScreen> {
                               'Start date': dateController.text,
                               'Password': passwordController.text,
                               'uid': _auth.currentUser!.uid,
+                              'ProfileImage': "",
                             });
                             firebase
                                 .collection('Company List')
@@ -460,6 +465,22 @@ class _AdminRegisterScreenState extends State<AdminRegisterScreen> {
                                 .set({
                               'Company Name': companynameController.text,
                               'uid': _auth.currentUser!.uid
+                            });
+                            firebase
+                                .collection(_auth.currentUser!.uid)
+                                .doc(_auth.currentUser!.uid)
+                                .collection('user')
+                                .doc(_auth.currentUser!.uid)
+                                .set({
+                              'Name': fullnameController.text,
+                              'City': '',
+                              'DOB': dateController.text,
+                              'Email': emailController.text,
+                              'Phone': '',
+                              'Password': passwordController.text,
+                              'Uid': _auth.currentUser!.uid,
+                              'ProfileImage': "",
+                              'fcmToken': fcmToken ?? '',
                             });
                             Get.showSnackbar(
                               GetSnackBar(
