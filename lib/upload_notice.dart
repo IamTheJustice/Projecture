@@ -216,51 +216,50 @@ class _AdminNoticeScreenState extends State<AdminNoticeScreen> {
                   GestureDetector(
                     onTap: () async {
                       FocusScope.of(context).requestFocus(FocusNode());
-                      if (formkey.currentState!.validate()) {
-                        FirebaseFirestore.instance
-                            .collection(_auth.currentUser!.uid)
-                            .doc(_auth.currentUser!.uid)
-                            .collection('Notice')
-                            .doc()
-                            .set({
-                          'Notice Title': noticeNameController.text,
-                          'Description': noticeController.text,
-                          'Date': dateController.text
-                        });
-                        QuerySnapshot<Map<String, dynamic>> userList =
-                            await FirebaseFirestore.instance
-                                .collection(_auth.currentUser!.uid)
-                                .doc(_auth.currentUser!.uid)
-                                .collection('user')
-                                .get();
-                        List<String> fcmTokenList = [];
-                        userList.docs.forEach((element) {
-                          fcmTokenList.add(element['fcmToken']);
-                        });
-                        log('userList ${userList.docs.length} ${fcmTokenList.length}');
-                        try {
-                          await LocalNotificationServices.sendNotificationGroup(
-                            userToken: fcmTokenList,
-                            message: noticeController.text,
-                            title: noticeNameController.text,
-                          );
-                        } catch (e) {
-                          log('Eroorrr :$e');
-                        }
-                        Get.showSnackbar(
-                          GetSnackBar(
-                            message: "Notice Added Succesfully",
-                            borderRadius: 10.0,
-                            margin: EdgeInsets.only(
-                                left: 4.w, right: 4.w, bottom: 4.w),
-                            snackPosition: SnackPosition.BOTTOM,
-                            backgroundColor: themeNotifier.isDark
-                                ? ColorUtils.black
-                                : ColorUtils.primaryColor,
-                            duration: const Duration(seconds: 2),
-                          ),
+
+                      FirebaseFirestore.instance
+                          .collection(_auth.currentUser!.uid)
+                          .doc(_auth.currentUser!.uid)
+                          .collection('Notice')
+                          .doc()
+                          .set({
+                        'Notice Title': noticeNameController.text,
+                        'Description': noticeController.text,
+                        'Date': dateController.text
+                      });
+                      QuerySnapshot<Map<String, dynamic>> userList =
+                          await FirebaseFirestore.instance
+                              .collection(_auth.currentUser!.uid)
+                              .doc(_auth.currentUser!.uid)
+                              .collection('user')
+                              .get();
+                      List<String> fcmTokenList = [];
+                      userList.docs.forEach((element) {
+                        fcmTokenList.add(element['fcmToken']);
+                      });
+                      log('userList ${userList.docs.length} ${fcmTokenList.length}');
+                      try {
+                        await LocalNotificationServices.sendNotificationGroup(
+                          userToken: fcmTokenList,
+                          message: noticeController.text,
+                          title: noticeNameController.text,
                         );
+                      } catch (e) {
+                        log('Eroorrr :$e');
                       }
+                      Get.showSnackbar(
+                        GetSnackBar(
+                          message: "Notice Added Succesfully",
+                          borderRadius: 10.0,
+                          margin: EdgeInsets.only(
+                              left: 4.w, right: 4.w, bottom: 4.w),
+                          snackPosition: SnackPosition.BOTTOM,
+                          backgroundColor: themeNotifier.isDark
+                              ? ColorUtils.black
+                              : ColorUtils.primaryColor,
+                          duration: const Duration(seconds: 2),
+                        ),
+                      );
                     },
                     child: Container(
                       height: 6.5.h,

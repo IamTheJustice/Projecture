@@ -29,6 +29,7 @@ class _AdminRegisterScreenState extends State<AdminRegisterScreen> {
   final TextEditingController dateController = TextEditingController();
   final TextEditingController confirmPasswordController =
       TextEditingController();
+  bool isCheckPassword = true;
   final firebase = FirebaseFirestore.instance;
   final _auth = FirebaseAuth.instance;
   List<Map<String, dynamic>> list1 = <Map<String, dynamic>>[
@@ -137,7 +138,7 @@ class _AdminRegisterScreenState extends State<AdminRegisterScreen> {
                           fontWeight: FontWeightClass.extraB),
                       validator: (v) {
                         if (v!.isEmpty) {
-                          return "please name required";
+                          return "Name required";
                         } else if (!RegExp(
                                 r'^[[A-Z]|[a-z]][[A-Z]|[a-z]|\\d|[_]]{7,29}$')
                             .hasMatch(v)) {
@@ -170,11 +171,11 @@ class _AdminRegisterScreenState extends State<AdminRegisterScreen> {
                       maxLines: 2,
                       validator: (v) {
                         if (v!.isEmpty) {
-                          return "please address required";
+                          return "Address required";
                         } else if (!RegExp(
                                 r'^[[A-Z]|[a-z]][[A-Z]|[a-z]|\\d|[_]]{7,29}$')
                             .hasMatch(v)) {
-                          return "please valid address ";
+                          return "please enter valid address ";
                         }
                         return null;
                       },
@@ -202,11 +203,11 @@ class _AdminRegisterScreenState extends State<AdminRegisterScreen> {
                           fontWeight: FontWeightClass.extraB),
                       validator: (v) {
                         if (v!.isEmpty) {
-                          return "please company name required";
+                          return "Company name required";
                         } else if (!RegExp(
                                 r'^[[A-Z]|[a-z]][[A-Z]|[a-z]|\\d|[_]]{7,29}$')
                             .hasMatch(v)) {
-                          return "please valid company name ";
+                          return "please enter valid company name ";
                         }
                         return null;
                       },
@@ -234,7 +235,7 @@ class _AdminRegisterScreenState extends State<AdminRegisterScreen> {
                           fontWeight: FontWeightClass.extraB),
                       validator: (v) {
                         if (v!.isEmpty) {
-                          return "please email required";
+                          return "Email required";
                         } else if (!RegExp(
                                 r"^[a-zA-Z0-9.!#$%&'*+/=?^_`{|}~-]+@[a-zA-Z0-9](?:[a-zA-Z0-9-]"
                                 r"{0,253}[a-zA-Z0-9])?(?:\.[a-zA-Z0-9](?:[a-zA-Z0-9-]"
@@ -268,7 +269,7 @@ class _AdminRegisterScreenState extends State<AdminRegisterScreen> {
                       readOnly: true,
                       validator: (v) {
                         if (v == null || v.isEmpty) {
-                          return "please required date";
+                          return "Date required";
                         }
                         return null;
                       },
@@ -317,11 +318,21 @@ class _AdminRegisterScreenState extends State<AdminRegisterScreen> {
                         }
                         return null;
                       },
+                      obscureText: isCheckPassword,
                       decoration: InputDecoration(
                           contentPadding: EdgeInsets.all(4.w),
                           filled: true,
                           fillColor: ColorUtils.greyE7.withOpacity(0.5),
                           hintText: "Password",
+                          suffixIcon: InkWell(
+                            onTap: () {
+                              isCheckPassword = !isCheckPassword;
+                              setState(() {});
+                            },
+                            child: Icon(isCheckPassword
+                                ? Icons.visibility_off
+                                : Icons.visibility),
+                          ),
                           hintStyle: FontTextStyle.Proxima14Regular.copyWith(
                               color: ColorUtils.primaryColor),
                           border: const OutlineInputBorder(
@@ -344,11 +355,21 @@ class _AdminRegisterScreenState extends State<AdminRegisterScreen> {
                         if (v != passwordController.text) return 'Not Match';
                         return null;
                       },
+                      obscureText: isCheckPassword,
                       decoration: InputDecoration(
                           contentPadding: EdgeInsets.all(4.w),
                           filled: true,
                           fillColor: ColorUtils.greyE7.withOpacity(0.5),
                           hintText: "Confirm Password",
+                          suffixIcon: InkWell(
+                            onTap: () {
+                              isCheckPassword = !isCheckPassword;
+                              setState(() {});
+                            },
+                            child: Icon(isCheckPassword
+                                ? Icons.visibility_off
+                                : Icons.visibility),
+                          ),
                           hintStyle: FontTextStyle.Proxima14Regular.copyWith(
                               color: ColorUtils.primaryColor),
                           border: const OutlineInputBorder(
@@ -358,79 +379,79 @@ class _AdminRegisterScreenState extends State<AdminRegisterScreen> {
                     ),
                   ),
                   SizeConfig.sH1,
-                  Padding(
-                    padding: EdgeInsets.only(left: 6.w),
-                    child: Text(
-                      "Language :",
-                      style: FontTextStyle.Proxima16Medium.copyWith(
-                          color: ColorUtils.primaryColor,
-                          fontWeight: FontWeightClass.semiB),
-                    ),
-                  ),
-                  Padding(
-                    padding: EdgeInsets.only(top: 2.w, right: 6.w, left: 6.w),
-                    child: Wrap(
-                      alignment: WrapAlignment.start,
-                      spacing: 6.0,
-                      children: List.generate(
-                          list1.length,
-                          (index) => Padding(
-                              padding: EdgeInsets.symmetric(
-                                  vertical: 1.w, horizontal: 0.8.w),
-                              child: InkWell(
-                                onTap: () {
-                                  log("Index===$index");
-                                  list1[index]['isSelect'] =
-                                      !list1[index]['isSelect'];
-                                  setState(() {});
-                                  log('selectionList${list1[index]}');
-                                },
-                                child: Container(
-                                  decoration: BoxDecoration(
-                                      color: list1[index]['isSelect']
-                                          ? ColorUtils.primaryColor
-                                          : ColorUtils.white,
-                                      borderRadius: BorderRadius.circular(14),
-                                      border: Border.all(
-                                          color: ColorUtils.primaryColor)),
-                                  child: Padding(
-                                    padding: EdgeInsets.only(
-                                        left: 2.w,
-                                        right: 2.w,
-                                        top: 0.5.h,
-                                        bottom: 0.5.h),
-                                    child: Row(
-                                      mainAxisSize: MainAxisSize.min,
-                                      children: [
-                                        Image.asset(
-                                          list1[index]['imagepath'],
-                                          scale: 2.w,
-                                        ),
-                                        SizeConfig.sW1,
-                                        Text(
-                                          list1[index]['title'],
-                                          style: FontTextStyle.Proxima14Regular
-                                              .copyWith(
-                                            color: list1[index]['isSelect']
-                                                ? ColorUtils.white
-                                                : ColorUtils.primaryColor,
-                                          ),
-                                        ),
-                                        Icon(
-                                          list1[index]['isSelect']
-                                              ? Icons.check_box
-                                              : Icons.check_box_outline_blank,
-                                          color: list1[index]['isSelect']
-                                              ? ColorUtils.white
-                                              : ColorUtils.primaryColor,
-                                        ),
-                                      ],
-                                    ),
-                                  ),
-                                ),
-                              ))),
-                    ),
-                  ),
+                  // Padding(
+                  //   padding: EdgeInsets.only(left: 6.w),
+                  //   child: Text(
+                  //     "Language :",
+                  //     style: FontTextStyle.Proxima16Medium.copyWith(
+                  //         color: ColorUtils.primaryColor,
+                  //         fontWeight: FontWeightClass.semiB),
+                  //   ),
+                  // ),
+                  // Padding(
+                  //   padding: EdgeInsets.only(top: 2.w, right: 6.w, left: 6.w),
+                  //   child: Wrap(
+                  //     alignment: WrapAlignment.start,
+                  //     spacing: 6.0,
+                  //     children: List.generate(
+                  //         list1.length,
+                  //         (index) => Padding(
+                  //             padding: EdgeInsets.symmetric(
+                  //                 vertical: 1.w, horizontal: 0.8.w),
+                  //             child: InkWell(
+                  //               onTap: () {
+                  //                 log("Index===$index");
+                  //                 list1[index]['isSelect'] =
+                  //                     !list1[index]['isSelect'];
+                  //                 setState(() {});
+                  //                 log('selectionList${list1[index]}');
+                  //               },
+                  //               child: Container(
+                  //                 decoration: BoxDecoration(
+                  //                     color: list1[index]['isSelect']
+                  //                         ? ColorUtils.primaryColor
+                  //                         : ColorUtils.white,
+                  //                     borderRadius: BorderRadius.circular(14),
+                  //                     border: Border.all(
+                  //                         color: ColorUtils.primaryColor)),
+                  //                 child: Padding(
+                  //                   padding: EdgeInsets.only(
+                  //                       left: 2.w,
+                  //                       right: 2.w,
+                  //                       top: 0.5.h,
+                  //                       bottom: 0.5.h),
+                  //                   child: Row(
+                  //                     mainAxisSize: MainAxisSize.min,
+                  //                     children: [
+                  //                       Image.asset(
+                  //                         list1[index]['imagepath'],
+                  //                         scale: 2.w,
+                  //                       ),
+                  //                       SizeConfig.sW1,
+                  //                       Text(
+                  //                         list1[index]['title'],
+                  //                         style: FontTextStyle.Proxima14Regular
+                  //                             .copyWith(
+                  //                           color: list1[index]['isSelect']
+                  //                               ? ColorUtils.white
+                  //                               : ColorUtils.primaryColor,
+                  //                         ),
+                  //                       ),
+                  //                       Icon(
+                  //                         list1[index]['isSelect']
+                  //                             ? Icons.check_box
+                  //                             : Icons.check_box_outline_blank,
+                  //                         color: list1[index]['isSelect']
+                  //                             ? ColorUtils.white
+                  //                             : ColorUtils.primaryColor,
+                  //                       ),
+                  //                     ],
+                  //                   ),
+                  //                 ),
+                  //               ),
+                  //             ))),
+                  //   ),
+                  // ),
                   SizeConfig.sH3,
                   Center(
                     child: GestureDetector(
@@ -470,7 +491,7 @@ class _AdminRegisterScreenState extends State<AdminRegisterScreen> {
                                 .collection(_auth.currentUser!.uid)
                                 .doc(_auth.currentUser!.uid)
                                 .collection('user')
-                                .doc(_auth.currentUser!.uid)
+                                .doc('Admin')
                                 .set({
                               'Name': 'Admin',
                               'City': '',

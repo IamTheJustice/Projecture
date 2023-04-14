@@ -1,8 +1,11 @@
+import 'dart:developer';
+
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:projecture_admin/app_theme/model_theme.dart';
 import 'package:projecture_admin/utils/color_utils.dart';
+import 'package:projecture_admin/utils/const/function/local_notification_services.dart';
 import 'package:projecture_admin/utils/shimmer_effect.dart';
 import 'package:provider/provider.dart';
 import 'package:sizer/sizer.dart';
@@ -92,7 +95,7 @@ class _AddMembersState extends State<AddMembers> {
                                     .collection('Current Project')
                                     .doc(Project)
                                     .set({
-                                  'PROJECT NAME': ProjectName,
+                                  'Project Name': ProjectName,
                                   'PLATFORM': EditingPlatform,
                                   'DESCRIPTION': Description,
                                 });
@@ -114,6 +117,15 @@ class _AddMembersState extends State<AddMembers> {
                                     temparray.add(data['Uid']);
                                   }
                                 });
+                                try {
+                                  await LocalNotificationServices.sendNotification(
+                                      token: data['fcmToken'],
+                                      message:
+                                          'The company added you for a ${ProjectName} project',
+                                      title: ProjectName);
+                                } catch (e) {
+                                  log('Eroorrr :$e');
+                                }
                               },
                               child: Padding(
                                 padding: EdgeInsets.only(

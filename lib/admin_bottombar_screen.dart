@@ -221,25 +221,90 @@ class _BottomNavBarScreenState extends State<BottomNavBarScreen> {
                                                         ),
                                                       ),
                                                     ),
-                                                    Padding(
-                                                      padding: EdgeInsets.only(
-                                                          top: 8.h, left: 15.w),
-                                                      child: Container(
-                                                        height: 4.h,
-                                                        width: 8.w,
-                                                        decoration: BoxDecoration(
-                                                            borderRadius:
-                                                                BorderRadius
-                                                                    .circular(
-                                                                        30),
-                                                            color: ColorUtils
-                                                                .primaryColor),
-                                                        child: Center(
-                                                          child: Icon(
-                                                            Icons.edit,
-                                                            color: ColorUtils
-                                                                .white,
-                                                            size: 4.w,
+                                                    GestureDetector(
+                                                      onTap: () async {
+                                                        circular = true;
+                                                        setState(() {});
+                                                        ImagePicker
+                                                            imagePicker =
+                                                            ImagePicker();
+                                                        XFile? file = await imagePicker
+                                                            .pickImage(
+                                                                source:
+                                                                    ImageSource
+                                                                        .gallery);
+                                                        print('${file?.path}');
+
+                                                        if (file == null) {
+                                                          return;
+                                                        }
+
+                                                        Reference
+                                                            referenceRoot =
+                                                            FirebaseStorage
+                                                                .instance
+                                                                .ref();
+                                                        Reference
+                                                            referenceDirImages =
+                                                            referenceRoot.child(
+                                                                'images');
+
+                                                        Reference
+                                                            referenceImageToUpload =
+                                                            referenceDirImages
+                                                                .child(
+                                                                    file.name);
+
+                                                        try {
+                                                          await referenceImageToUpload
+                                                              .putFile(File(
+                                                                      file!
+                                                                          .path)
+                                                                  .absolute);
+
+                                                          imageUrl =
+                                                              await referenceImageToUpload
+                                                                  .getDownloadURL();
+                                                          FirebaseFirestore
+                                                              .instance
+                                                              .collection(_auth
+                                                                  .currentUser!
+                                                                  .uid)
+                                                              .doc(_auth
+                                                                  .currentUser!
+                                                                  .uid)
+                                                              .update({
+                                                            'ProfileImage':
+                                                                imageUrl
+                                                          });
+                                                          circular = false;
+                                                          setState(() {});
+                                                        } catch (error) {
+                                                          //Some error occurred
+                                                        }
+                                                      },
+                                                      child: Padding(
+                                                        padding:
+                                                            EdgeInsets.only(
+                                                                top: 8.h,
+                                                                left: 15.w),
+                                                        child: Container(
+                                                          height: 4.h,
+                                                          width: 8.w,
+                                                          decoration: BoxDecoration(
+                                                              borderRadius:
+                                                                  BorderRadius
+                                                                      .circular(
+                                                                          30),
+                                                              color: ColorUtils
+                                                                  .primaryColor),
+                                                          child: Center(
+                                                            child: Icon(
+                                                              Icons.edit,
+                                                              color: ColorUtils
+                                                                  .white,
+                                                              size: 4.w,
+                                                            ),
                                                           ),
                                                         ),
                                                       ),

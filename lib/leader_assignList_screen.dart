@@ -27,7 +27,7 @@ class _LeaderAssignState extends State<LeaderAssign> {
         builder: (context, ModelTheme themeNotifier, child) {
       return Scaffold(
         appBar: AppBar(
-          title: const Text("Project List"),
+          title: const Text("Member List"),
           centerTitle: true,
           backgroundColor:
               themeNotifier.isDark ? ColorUtils.black : ColorUtils.primaryColor,
