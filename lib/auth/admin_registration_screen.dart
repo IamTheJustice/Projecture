@@ -472,7 +472,7 @@ class _AdminRegisterScreenState extends State<AdminRegisterScreen> {
                                 .collection('user')
                                 .doc(_auth.currentUser!.uid)
                                 .set({
-                              'Name': fullnameController.text,
+                              'Name': 'Admin',
                               'City': '',
                               'DOB': dateController.text,
                               'Email': emailController.text,
