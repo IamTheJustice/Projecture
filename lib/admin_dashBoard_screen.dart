@@ -117,7 +117,7 @@ class _DashBoardScreenState extends State<DashBoardScreen> {
                                               ),
                                               child: Center(
                                                 child: Text(
-                                                  "SHOW DATA",
+                                                  "Show Status",
                                                   style: FontTextStyle
                                                           .Proxima12Regular
                                                       .copyWith(
@@ -150,7 +150,7 @@ class _DashBoardScreenState extends State<DashBoardScreen> {
                                               ),
                                               child: Center(
                                                 child: Text(
-                                                  "ADD Member",
+                                                  "Add Member",
                                                   style: FontTextStyle
                                                           .Proxima12Regular
                                                       .copyWith(
